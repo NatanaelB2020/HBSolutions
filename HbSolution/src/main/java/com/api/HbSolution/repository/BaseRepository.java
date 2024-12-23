@@ -1,9 +1,7 @@
 package com.api.HbSolution.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import com.api.HbSolution.entity.BaseEntity;
 
-@Repository
-public interface BaseRepository<T extends com.api.HbSolution.entity.BaseEntity> extends JpaRepository<T, Long> {
-
+public interface BaseRepository<T extends BaseEntity> extends JpaRepository<T, Long> {
 }
