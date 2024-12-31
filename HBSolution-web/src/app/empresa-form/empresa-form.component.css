@@ -1,0 +1,88 @@
+/* Estilo do formulário */
+.empresa-form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Título */
+  .empresa-form h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  /* Estilo do grupo de campos */
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  /* Estilo para inputs desabilitados */
+  .form-group input[readonly] {
+    background-color: #f0f0f0;
+  }
+  
+  /* Botões */
+  .form-buttons {
+    text-align: center;
+  }
+  
+  .form-buttons button {
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .form-buttons button.btn-primary {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .form-buttons button.btn-primary:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .form-buttons button.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+  }
+  
+  .form-buttons button.btn-info {
+    background-color: #17a2b8;
+    color: white;
+  }
+  
+  .input-group {
+    display: flex;
+    align-items: center;
+  }
+  
+  .input-group input {
+    flex: 1;
+  }
+  
+  .input-group button {
+    margin-left: 10px;
+  }
+  

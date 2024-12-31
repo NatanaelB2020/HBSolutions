@@ -1,0 +1,58 @@
+<div class="empresa-form">
+  <h2>Cadastro de Empresa</h2>
+  <form [formGroup]="empresaForm" (ngSubmit)="salvar()">
+    <div class="form-group">
+      <label for="nomeFantasia">Nome Fantasia</label>
+      <input id="nomeFantasia" formControlName="nomeFantasia" type="text" class="form-control" required>
+    </div>
+
+    <div class="form-group">
+      <label for="cnpj">CNPJ</label>
+      <input id="cnpj" formControlName="cnpj" type="text" class="form-control" required>
+    </div>
+
+    <div class="form-group">
+      <label for="telefone">Telefone</label>
+      <input id="telefone" formControlName="telefone" type="text" class="form-control" required>
+    </div>
+
+    <div class="form-group">
+      <label for="cep">CEP</label>
+      <div class="input-group">
+        <input id="cep" formControlName="cep" type="text" class="form-control" required (blur)="buscarEndereco()">
+        <button type="button" class="btn btn-info" (click)="buscarEndereco()">Buscar</button>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="logradouro">Logradouro</label>
+      <input id="logradouro" formControlName="logradouro" type="text" class="form-control" readonly>
+    </div>
+
+    <div class="form-group">
+      <label for="numero">Número</label>
+      <input id="numero" formControlName="numero" type="text" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label for="bairro">Bairro</label>
+      <input id="bairro" formControlName="bairro" type="text" class="form-control" readonly>
+    </div>
+
+    <div class="form-group">
+      <label for="cidade">Cidade</label>
+      <input id="cidade" formControlName="cidade" type="text" class="form-control" readonly>
+    </div>
+
+    <div class="form-group">
+      <label for="estado">Estado</label>
+      <input id="estado" formControlName="estado" type="text" class="form-control" readonly>
+    </div>
+
+    <div class="form-buttons">
+      <button type="submit" class="btn btn-primary" [disabled]="!empresaForm.valid">Salvar</button>
+      <button type="button" class="btn btn-secondary" (click)="limpar()">Limpar</button>
+      <button type="button" class="btn btn-secondary" (click)="voltar()">Voltar</button>
+    </div>
+  </form>
+</div>

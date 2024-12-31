@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-HbSolutionApplication<HbSolution>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.api.HbSolution.HbSolutionApplication",
+            "projectName": "HbSolution",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
