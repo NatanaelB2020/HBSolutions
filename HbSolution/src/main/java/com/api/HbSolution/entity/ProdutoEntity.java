@@ -1,6 +1,9 @@
 package com.api.HbSolution.entity;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -48,4 +51,8 @@ public class ProdutoEntity extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "id_empresa", referencedColumnName = "id")
     private EmpresaEntity empresa;
+
+    @CreationTimestamp
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
 }
