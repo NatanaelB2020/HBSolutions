@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cliente-form',
@@ -23,9 +23,8 @@ export class ClienteFormComponent implements OnInit {
   ngOnInit() {
     this.clienteForm = this.fb.group({
       nome: ['', Validators.required],
-      cpf: ['', Validators.required],
+      cpf: ['', [Validators.required, Validators.pattern(/^\d{11}$/)]], // Validação do CPF
       telefone: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
       cep: ['', Validators.required],
       logradouro: [{ value: '', disabled: true }],
       numero: [''],
@@ -70,7 +69,6 @@ export class ClienteFormComponent implements OnInit {
         nome: this.clienteForm.get('nome')?.value,
         cpf: this.clienteForm.get('cpf')?.value,
         telefone: this.clienteForm.get('telefone')?.value,
-        email: this.clienteForm.get('email')?.value,
         endereco: {
           cep: this.clienteForm.get('cep')?.value,
           logradouro: this.clienteForm.get('logradouro')?.value,
