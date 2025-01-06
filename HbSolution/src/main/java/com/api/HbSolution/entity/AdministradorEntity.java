@@ -6,30 +6,20 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Entity
-@Table(name = "usuario")
+@Table(name = "administrador")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class UsuarioEntity extends BaseEntity {
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "empresa_id", nullable = false)
-    private EmpresaEntity empresa;
+public class AdministradorEntity extends BaseEntity {
 
     @Column(name = "nome", nullable = false, length = 100)
     private String nome;
 
-    @Column(name = "email", nullable = false, length = 100, unique = true)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     @Column(name = "senha", nullable = false, length = 255)
     private String senha;
-
-    @Column(name = "ativo", nullable = false)
-    private Boolean ativo;
-
 }

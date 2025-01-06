@@ -1,18 +1,39 @@
 package com.api.HbSolution.entity;
 
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import lombok.Data;
 
-@Getter
-@Setter
 @MappedSuperclass
-public abstract class BaseEntity {
+@Data
+public abstract class BaseEntity implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Make sure the ID is auto-generated
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "createdAt", nullable = false, updatable = false)
+    private LocalDateTime createdAt = LocalDateTime.now();
+
+    @Column(name = "data_atualizacao", nullable = false)
+    private LocalDateTime dataAtualizacao = LocalDateTime.now();
+
+    @PrePersist
+    private void onCreate() {
+        this.createdAt = LocalDateTime.now();
+        this.dataAtualizacao = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    private void onUpdate() {
+        this.dataAtualizacao = LocalDateTime.now();
+    }
 }

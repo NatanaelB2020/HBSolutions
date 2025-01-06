@@ -16,10 +16,6 @@ import java.math.BigDecimal;
 @EqualsAndHashCode(callSuper = true)
 public class ItemPedidoEntity extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Make sure the ID is auto-generated
-    private Long id;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pedido_id", nullable = false)
     private PedidoEntity pedido;

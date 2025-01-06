@@ -18,10 +18,6 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class PedidoEntity extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Make sure the ID is auto-generated
-    private Long id;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "empresa_id", nullable = false)
     private EmpresaEntity empresa;

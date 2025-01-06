@@ -26,10 +26,6 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 public class ProdutoEntity extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Make sure the ID is auto-generated
-    private Long id;
-
     @Column(name = "nome", nullable = false, length = 255)
     private String nome;
 
@@ -52,7 +48,4 @@ public class ProdutoEntity extends BaseEntity {
     @JoinColumn(name = "id_empresa", referencedColumnName = "id")
     private EmpresaEntity empresa;
 
-    @CreationTimestamp
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
 }

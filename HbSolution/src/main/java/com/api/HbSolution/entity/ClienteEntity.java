@@ -22,10 +22,6 @@ import jakarta.persistence.Table;
 @EqualsAndHashCode(callSuper = true)
 public class ClienteEntity extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Make sure the ID is auto-generated
-    private Long id;
-
     @Column(name = "nome", nullable = false, length = 255)
     private String nome;
 

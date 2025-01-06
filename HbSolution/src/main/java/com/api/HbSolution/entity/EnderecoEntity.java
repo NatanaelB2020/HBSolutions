@@ -14,10 +14,6 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 public class EnderecoEntity extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     @Column(name = "logradouro", nullable = false, length = 255)
     private String logradouro;
 
