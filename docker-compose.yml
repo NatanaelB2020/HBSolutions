@@ -1,0 +1,43 @@
+services:
+  # Serviço de Banco de Dados
+  postgres:
+    image: postgres:latest
+    container_name: hbsolution-postgres-1
+    environment:
+      POSTGRES_DB: HBsolution
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+
+  # Serviço Backend
+  backend:
+    build:
+      context: ./HBSolution  # Caminho do backend
+      dockerfile: Dockerfile
+    container_name: hbsolution-backend-1
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/HBsolution
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: admin123
+    depends_on:
+      - postgres
+    restart: always
+
+  # Serviço Frontend
+  frontend:
+    build:
+      context: ./HBSolution-web  # Caminho do frontend
+      dockerfile: Dockerfile
+    container_name: hbsolution-frontend-1
+    ports:
+      - "80:80"  # Ou a porta que você preferir
+    restart: always
+
+volumes:
+  postgres_data:
