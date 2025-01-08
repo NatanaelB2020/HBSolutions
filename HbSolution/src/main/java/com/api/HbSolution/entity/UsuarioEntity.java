@@ -6,8 +6,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Table(name = "usuario")
 @Data
@@ -31,5 +29,8 @@ public class UsuarioEntity extends BaseEntity {
 
     @Column(name = "ativo", nullable = false)
     private Boolean ativo;
+
+    @Column(name = "role", nullable = false, length = 255)
+    private String role;
 
 }
