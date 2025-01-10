@@ -42,6 +42,8 @@ public class EnderecoService extends BaseService<EnderecoEntity> {
                 throw new RuntimeException("CEP inválido ou não encontrado");
             }
         } catch (Exception e) {
+            // Log the error (you can use a logging framework)
+            System.out.println("Error fetching address: " + e.getMessage());
             throw new RuntimeException("Erro ao buscar o endereço: " + e.getMessage(), e);
         }
     }

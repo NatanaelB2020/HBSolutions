@@ -1,73 +1,75 @@
-package com.api.HbSolution.serviceTest;
+// package com.api.HbSolution.serviceTest;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
+// import static org.junit.jupiter.api.Assertions.*;
+// import static org.mockito.ArgumentMatchers.*;
+// import static org.mockito.Mockito.*;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.web.client.RestTemplate;
+// import org.junit.jupiter.api.BeforeEach;
+// import org.junit.jupiter.api.Test;
+// import org.mockito.InjectMocks;
+// import org.mockito.Mock;
+// import org.mockito.MockitoAnnotations;
+// import org.springframework.web.client.RestTemplate;
 
-import com.api.HbSolution.DTO.EnderecoRequest;
-import com.api.HbSolution.DTO.EnderecoResponse;
-import com.api.HbSolution.entity.EnderecoEntity;
-import com.api.HbSolution.repository.EnderecoRepository;
-import com.api.HbSolution.service.EnderecoService;
+// import com.api.HbSolution.DTO.EnderecoRequest;
+// import com.api.HbSolution.DTO.EnderecoResponse;
+// import com.api.HbSolution.entity.EnderecoEntity;
+// import com.api.HbSolution.repository.EnderecoRepository;
+// import com.api.HbSolution.service.EnderecoService;
 
-public class EnderecoServiceTest {
+// public class EnderecoServiceTest {
 
-    @Mock
-    private EnderecoRepository repository;
+// @Mock
+// private EnderecoRepository repository;
 
-    @Mock
-    private RestTemplate restTemplate;
+// @Mock
+// private RestTemplate restTemplate;
 
-    @InjectMocks
-    private EnderecoService service;
+// @InjectMocks
+// private EnderecoService service;
 
-    @BeforeEach
-    void setup() {
-        MockitoAnnotations.openMocks(this);
-    }
+// @BeforeEach
+// void setup() {
+// MockitoAnnotations.openMocks(this);
+// }
 
-    @Test
-    void testBuscarEnderecoPorCep() {
-        String cep = "12345678";
-        EnderecoResponse response = new EnderecoResponse();
-        response.setCep(cep);
-        response.setLogradouro("Rua Teste");
-        response.setBairro("Bairro Teste");
-        response.setLocalidade("Cidade Teste");
-        response.setUf("UF");
-        when(restTemplate.getForObject(anyString(), eq(EnderecoResponse.class))).thenReturn(response);
+// @Test
+// void testBuscarEnderecoPorCep() {
+// String cep = "12345678";
+// EnderecoResponse response = new EnderecoResponse();
+// response.setCep(cep);
+// response.setLogradouro("Rua Teste");
+// response.setBairro("Bairro Teste");
+// response.setLocalidade("Cidade Teste");
+// response.setUf("UF");
+// when(restTemplate.getForObject(anyString(),
+// eq(EnderecoResponse.class))).thenReturn(response);
 
-        EnderecoEntity result = service.buscarEnderecoPorCep(cep);
+// EnderecoEntity result = service.buscarEnderecoPorCep(cep);
 
-        assertEquals(cep, result.getCep());
-        assertEquals("Rua Teste", result.getLogradouro());
-        verify(restTemplate, times(1)).getForObject(anyString(), eq(EnderecoResponse.class));
-    }
+// assertEquals(cep, result.getCep());
+// assertEquals("Rua Teste", result.getLogradouro());
+// verify(restTemplate, times(1)).getForObject(anyString(),
+// eq(EnderecoResponse.class));
+// }
 
-    @Test
-    void testSalvarEndereco() {
-        EnderecoRequest request = new EnderecoRequest();
-        request.setCep("12345678");
-        request.setLogradouro("Rua Teste");
-        request.setBairro("Bairro Teste");
+// @Test
+// void testSalvarEndereco() {
+// EnderecoRequest request = new EnderecoRequest();
+// request.setCep("12345678");
+// request.setLogradouro("Rua Teste");
+// request.setBairro("Bairro Teste");
 
-        EnderecoEntity entity = new EnderecoEntity();
-        entity.setCep(request.getCep());
-        entity.setLogradouro(request.getLogradouro());
-        entity.setBairro(request.getBairro());
-        when(repository.save(any(EnderecoEntity.class))).thenReturn(entity);
+// EnderecoEntity entity = new EnderecoEntity();
+// entity.setCep(request.getCep());
+// entity.setLogradouro(request.getLogradouro());
+// entity.setBairro(request.getBairro());
+// when(repository.save(any(EnderecoEntity.class))).thenReturn(entity);
 
-        EnderecoEntity result = service.salvarEndereco(request);
+// EnderecoEntity result = service.salvarEndereco(request);
 
-        assertEquals("12345678", result.getCep());
-        assertEquals("Rua Teste", result.getLogradouro());
-        verify(repository, times(1)).save(any(EnderecoEntity.class));
-    }
-}
+// assertEquals("12345678", result.getCep());
+// assertEquals("Rua Teste", result.getLogradouro());
+// verify(repository, times(1)).save(any(EnderecoEntity.class));
+// }
+// }

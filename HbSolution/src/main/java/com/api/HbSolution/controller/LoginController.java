@@ -25,9 +25,10 @@ public class LoginController {
     public ResponseEntity<String> login(@RequestBody LoginRequestDTO loginRequest) {
         try {
             UsuarioEntity usuario = usuarioService.authenticate(loginRequest.getEmail(), loginRequest.getSenha());
-            return ResponseEntity.ok("Autenticado com sucesso! Bem-vindo, " + usuario.getEmail());
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciais inválidas");
+            return ResponseEntity.ok("Login successful!");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials.");
         }
     }
+
 }
