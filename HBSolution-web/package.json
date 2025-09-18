@@ -1,15 +1,16 @@
 {
   "name": "hbsolution-web",
   "version": "0.0.0",
+  "private": true,
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:ssr": "ng build && ng run hbsolution-web:server",
+    "serve:ssr:HBSolution-web": "node dist/hbsolution-web/server/server.js",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "serve:ssr:HBSolution-web": "node dist/hbsolution-web/server/server.mjs"
+    "test": "ng test"
   },
-  "private": true,
   "dependencies": {
     "@angular/animations": "^19.0.0",
     "@angular/common": "^19.0.5",

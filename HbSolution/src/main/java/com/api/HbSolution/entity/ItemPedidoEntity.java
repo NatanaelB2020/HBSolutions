@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class ItemPedidoEntity extends BaseEntity {
+public class ItemPedidoEntity extends BaseEntity implements UsuarioAuditable{
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pedido_id", nullable = false)
@@ -35,4 +35,20 @@ public class ItemPedidoEntity extends BaseEntity {
 
     @Column(name = "observacao", length = 500)
     private String observacao;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "usuario_id")
+    private UsuarioEntity usuario;
+
+    @Override
+    public void setUsuario(UsuarioEntity usuario) {
+        this.usuario = usuario;
+    }
+
+    @Override
+    public UsuarioEntity getUsuario() {
+        return this.usuario;
+    }
+
+  
 }

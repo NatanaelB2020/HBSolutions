@@ -16,11 +16,8 @@ import com.api.HbSolution.enums.StatusAtendimento;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class AtendimentoMesaEntity extends BaseEntity {
+public class AtendimentoMesaEntity extends BaseEntity implements UsuarioAuditable {
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "empresa_id", nullable = false)
-    private EmpresaEntity empresa;
 
     @Column(name = "numero_mesa", nullable = false)
     private Integer numeroMesa;
@@ -41,4 +38,18 @@ public class AtendimentoMesaEntity extends BaseEntity {
 
     @Column(name = "observacao", length = 500)
     private String observacao;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "usuario_id")
+    private UsuarioEntity usuario;
+
+    @Override
+    public void setUsuario(UsuarioEntity usuario) {
+        this.usuario = usuario;
+    }
+
+    @Override
+    public UsuarioEntity getUsuario() {
+        return this.usuario;
+    }
 }

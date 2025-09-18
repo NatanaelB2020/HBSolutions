@@ -15,22 +15,22 @@ import jakarta.transaction.Transactional;
 @Service
 public class EnderecoService extends BaseService<EnderecoEntity> {
 
-    @Autowired
-    private EnderecoRepository enderecoRepository;
+    private final RestTemplate restTemplate;
+    private final EnderecoRepository enderecoRepository;
+
+    public EnderecoService(EnderecoRepository enderecoRepository, RestTemplate restTemplate) {
+        this.enderecoRepository = enderecoRepository;
+        this.restTemplate = restTemplate;
+        setRepository(enderecoRepository);
+    }
 
     public EnderecoEntity buscarEnderecoPorCep(String cep) {
-        String url = UriComponentsBuilder
-                .fromHttpUrl("https://viacep.com.br/ws/{cep}/json/")
-                .buildAndExpand(cep)
-                .toString();
+        String url = "https://viacep.com.br/ws/" + cep + "/json/";
 
-        RestTemplate restTemplate = new RestTemplate();
         try {
-            // Faz a chamada para a API ViaCEP
             EnderecoResponse enderecoResponse = restTemplate.getForObject(url, EnderecoResponse.class);
 
             if (enderecoResponse != null && !enderecoResponse.isErro()) {
-                // Converte a resposta da API em uma entidade EnderecoEntity
                 EnderecoEntity enderecoEntity = new EnderecoEntity();
                 enderecoEntity.setLogradouro(enderecoResponse.getLogradouro());
                 enderecoEntity.setBairro(enderecoResponse.getBairro());
@@ -55,10 +55,7 @@ public class EnderecoService extends BaseService<EnderecoEntity> {
         endereco.setEstado(enderecoRequest.getEstado());
         endereco.setCep(enderecoRequest.getCep());
         endereco.setNumero(enderecoRequest.getNumero());
-        if (enderecoRequest.getComplemento() != null && !enderecoRequest.getComplemento().isEmpty()) {
-            endereco.setComplemento(enderecoRequest.getComplemento());
-        }
+        endereco.setComplemento(enderecoRequest.getComplemento());
         return enderecoRepository.save(endereco);
     }
-
 }

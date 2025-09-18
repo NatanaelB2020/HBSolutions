@@ -3,6 +3,7 @@ package com.api.HbSolution.entity;
 import java.math.BigDecimal;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -17,7 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class ProdutoEntity extends BaseEntity {
+public class ProdutoEntity extends BaseEntity implements UsuarioAuditable{
 
     @Column(name = "nome", nullable = false, length = 255)
     private String nome;
@@ -37,8 +38,18 @@ public class ProdutoEntity extends BaseEntity {
     @Column(name = "categoria", length = 100)
     private String categoria;
 
-    @ManyToOne
-    @JoinColumn(name = "id_empresa", referencedColumnName = "id")
-    private EmpresaEntity empresa;
+   @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "usuario_id")
+    private UsuarioEntity usuario;
+
+    @Override
+    public void setUsuario(UsuarioEntity usuario) {
+        this.usuario = usuario;
+    }
+
+    @Override
+    public UsuarioEntity getUsuario() {
+        return this.usuario;
+    }
 
 }

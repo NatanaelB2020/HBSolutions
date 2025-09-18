@@ -6,4 +6,5 @@ import com.api.HbSolution.entity.EmpresaEntity;
 
 @Repository
 public interface EmpresaRepository extends BaseRepository<EmpresaEntity> {
+    
 }

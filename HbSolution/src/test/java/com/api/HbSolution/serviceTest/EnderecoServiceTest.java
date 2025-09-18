@@ -25,49 +25,79 @@ public class EnderecoServiceTest {
     @Mock
     private RestTemplate restTemplate;
 
-    @InjectMocks
     private EnderecoService service;
 
     @BeforeEach
     void setup() {
         MockitoAnnotations.openMocks(this);
+
+        // Injetando os mocks no serviço
+        service = new EnderecoService(repository, restTemplate);
     }
 
     @Test
     void testBuscarEnderecoPorCep() {
         String cep = "12345678";
+
+        // Dados mockados da API
         EnderecoResponse response = new EnderecoResponse();
         response.setCep(cep);
         response.setLogradouro("Rua Teste");
         response.setBairro("Bairro Teste");
         response.setLocalidade("Cidade Teste");
         response.setUf("UF");
-        when(restTemplate.getForObject(anyString(), eq(EnderecoResponse.class))).thenReturn(response);
 
-        EnderecoEntity result = service.buscarEnderecoPorCep(cep);
+        // Configura mock do RestTemplate
+        when(restTemplate.getForObject(anyString(), eq(EnderecoResponse.class)))
+                .thenReturn(response);
 
-        assertEquals(cep, result.getCep());
-        assertEquals("Rua Teste", result.getLogradouro());
-        verify(restTemplate, times(1)).getForObject(anyString(), eq(EnderecoResponse.class));
+        // Chama o serviço
+        EnderecoEntity entity = service.buscarEnderecoPorCep(cep);
+
+        // Verifica se os dados foram preenchidos corretamente
+        assertEquals("12345678", entity.getCep());
+        assertEquals("Rua Teste", entity.getLogradouro());
+        assertEquals("Bairro Teste", entity.getBairro());
+        assertEquals("Cidade Teste", entity.getCidade());
+        assertEquals("UF", entity.getEstado());
     }
 
     @Test
     void testSalvarEndereco() {
+        // Dados de entrada
         EnderecoRequest request = new EnderecoRequest();
         request.setCep("12345678");
         request.setLogradouro("Rua Teste");
         request.setBairro("Bairro Teste");
+        request.setCidade("Cidade Teste");
+        request.setEstado("UF");
+        request.setNumero("100");
+        request.setComplemento("Apto 101");
 
+        // Entidade que o repository deve retornar
         EnderecoEntity entity = new EnderecoEntity();
         entity.setCep(request.getCep());
         entity.setLogradouro(request.getLogradouro());
         entity.setBairro(request.getBairro());
+        entity.setCidade(request.getCidade());
+        entity.setEstado(request.getEstado());
+        entity.setNumero(request.getNumero());
+        entity.setComplemento(request.getComplemento());
+
         when(repository.save(any(EnderecoEntity.class))).thenReturn(entity);
 
+        // Chama o serviço
         EnderecoEntity result = service.salvarEndereco(request);
 
+        // Verifica os valores retornados
         assertEquals("12345678", result.getCep());
         assertEquals("Rua Teste", result.getLogradouro());
+        assertEquals("Bairro Teste", result.getBairro());
+        assertEquals("Cidade Teste", result.getCidade());
+        assertEquals("UF", result.getEstado());
+        assertEquals("100", result.getNumero());
+        assertEquals("Apto 101", result.getComplemento());
+
         verify(repository, times(1)).save(any(EnderecoEntity.class));
     }
 }

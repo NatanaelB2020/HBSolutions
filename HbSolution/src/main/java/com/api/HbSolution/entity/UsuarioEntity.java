@@ -1,5 +1,8 @@
 package com.api.HbSolution.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,10 +16,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class UsuarioEntity extends BaseEntity {
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "empresa_id", nullable = false)
-    private EmpresaEntity empresa;
 
     @Column(name = "nome", nullable = false, length = 100)
     private String nome;
@@ -32,5 +31,13 @@ public class UsuarioEntity extends BaseEntity {
 
     @Column(name = "role", nullable = false, length = 255)
     private String role;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "usuario_role",
+        joinColumns = @JoinColumn(name = "usuario_id"),
+        inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<RoleEntity> roles = new HashSet<>();
 
 }

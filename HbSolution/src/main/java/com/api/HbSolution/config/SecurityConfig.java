@@ -1,5 +1,6 @@
 package com.api.HbSolution.config;
 
+import com.api.HbSolution.security.JwtAuthenticationFilter;
 import com.api.HbSolution.service.UsuarioDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,34 +10,43 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 public class SecurityConfig {
 
     private final UsuarioDetailsService usuarioDetailsService;
+    private final JwtAuthenticationFilter jwtFilter;
 
-    public SecurityConfig(UsuarioDetailsService usuarioDetailsService) {
+    public SecurityConfig(UsuarioDetailsService usuarioDetailsService,
+                          JwtAuthenticationFilter jwtFilter) {
         this.usuarioDetailsService = usuarioDetailsService;
+        this.jwtFilter = jwtFilter;
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable())
+        return http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/clientes/**", "/api/empresas/**", "/api/enderecos/**",
-                                "/api/produtos/**", "/api/usuarios/**")
-                        .authenticated()
-                        .anyRequest().permitAll())
-                .httpBasic(httpBasic -> {
-                });
-
-        return http.build();
+                        // login/signup ficam liberados
+                        .requestMatchers("/auth/**").permitAll()
+                        // suas APIs exigem token
+                        .requestMatchers("/api/clientes/**",
+                                         "/api/empresas/**",
+                                         "/api/enderecos/**",
+                                         "/api/produtos/**",
+                                         "/api/usuarios/**").authenticated()
+                        .anyRequest().permitAll()
+                )
+                // adiciona o filtro JWT antes do filtro padrão de autenticação
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                .build();
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig)
             throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
+        return authConfig.getAuthenticationManager();
     }
 
     @Bean
