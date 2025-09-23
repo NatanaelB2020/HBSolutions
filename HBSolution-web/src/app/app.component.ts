@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MenuComponent } from './menu/menu.component';
+import { LoginComponent } from './login/login.component'; // ajuste o caminho se necessário
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, MenuComponent], // Adicionando o componente em imports
-  templateUrl: './app.component.html',
+  imports: [CommonModule, LoginComponent],
+  template: `<app-login></app-login>`,
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {}
