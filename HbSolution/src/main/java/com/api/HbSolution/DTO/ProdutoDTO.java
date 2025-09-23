@@ -3,8 +3,10 @@ package com.api.HbSolution.DTO;
 import java.math.BigDecimal;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class ProdutoDTO {
 
     private Long id;

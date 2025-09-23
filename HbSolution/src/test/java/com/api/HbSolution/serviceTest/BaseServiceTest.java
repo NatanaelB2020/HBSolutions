@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 
 import com.api.HbSolution.entity.BaseEntity;
 import com.api.HbSolution.entity.EmpresaEntity;
@@ -17,10 +19,11 @@ import com.api.HbSolution.entity.UsuarioEntity;
 import com.api.HbSolution.entity.UsuarioAuditable;
 import com.api.HbSolution.repository.BaseRepository;
 import com.api.HbSolution.service.BaseService;
+import com.api.HbSolution.security.SecurityUtils;
 
 public class BaseServiceTest {
 
-    // Entidade concreta que implementa UsuarioAuditable
+    // Entidade concreta para testes
     private static class TestEntity extends BaseEntity implements UsuarioAuditable {
         private UsuarioEntity usuario;
 
@@ -54,43 +57,67 @@ public class BaseServiceTest {
 
         usuario = new UsuarioEntity();
         usuario.setId(99L);
+        usuario.setEmpresaId(empresa.getId());
 
         entity = new TestEntity();
         entity.setId(1L);
-        entity.setEmpresa(empresa);
+        entity.setEmpresaId(empresa.getId());
 
-        service.setEmpresaAtual(empresa);
-        service.setUsuarioAtual(usuario);
-
-        when(repository.findByIdAndEmpresa(1L, empresa)).thenReturn(Optional.of(entity));
+        // Ajuste: usa métodos de exclusão lógica
+        when(repository.findByIdAndEmpresaIdAndAtivoTrue(1L, empresa.getId()))
+                .thenReturn(Optional.of(entity));
         doNothing().when(repository).delete(entity);
         when(repository.save(entity)).thenReturn(entity);
     }
 
     @Test
     void testSave() {
-        TestEntity savedEntity = service.save(entity);
+        try (MockedStatic<SecurityUtils> mockedSecurity = Mockito.mockStatic(SecurityUtils.class)) {
+            mockedSecurity.when(SecurityUtils::getUsuarioLogado).thenReturn(usuario);
 
-        assertEquals(entity, savedEntity);
-        assertEquals(usuario, entity.getUsuario()); // verifica se o usuário foi setado
-        verify(repository, times(1)).save(entity);
+            TestEntity savedEntity = service.save(entity);
+
+            assertEquals(entity, savedEntity);
+            assertEquals(usuario, entity.getUsuario());
+            assertEquals(usuario.getEmpresaId(), entity.getEmpresaId());
+            verify(repository, times(1)).save(entity);
+        }
     }
 
     @Test
     void testFindById() {
-        Optional<TestEntity> result = service.findById(1L);
+        try (MockedStatic<SecurityUtils> mockedSecurity = Mockito.mockStatic(SecurityUtils.class)) {
+            mockedSecurity.when(SecurityUtils::getUsuarioLogado).thenReturn(usuario);
 
-        assertTrue(result.isPresent());
-        assertEquals(entity, result.get());
-        verify(repository, times(1)).findByIdAndEmpresa(1L, empresa);
+            Optional<TestEntity> result = service.findById(1L);
+
+            assertTrue(result.isPresent());
+            assertEquals(entity, result.get());
+            verify(repository, times(1))
+                    .findByIdAndEmpresaIdAndAtivoTrue(1L, usuario.getEmpresaId());
+        }
     }
 
     @Test
-    void testDelete() {
+void testDelete() {
+    try (MockedStatic<SecurityUtils> mockedSecurity = Mockito.mockStatic(SecurityUtils.class)) {
+        mockedSecurity.when(SecurityUtils::getUsuarioLogado).thenReturn(usuario);
+
         service.delete(1L);
 
-        verify(repository, times(1)).findByIdAndEmpresa(1L, empresa);
-        verify(repository, times(1)).delete(entity);
-        assertEquals(usuario, entity.getUsuario()); // verifica se o usuário foi setado na exclusão
+        // Verifica que a busca ocorreu
+        verify(repository, times(1))
+                .findByIdAndEmpresaIdAndAtivoTrue(1L, usuario.getEmpresaId());
+
+        // Verifica que o save foi chamado (exclusão lógica)
+        verify(repository, times(1)).save(entity);
+
+        // A entidade deve ter o usuário setado
+        assertEquals(usuario, entity.getUsuario());
+
+        // A entidade deve estar inativa (ativo = false)
+        assertFalse(entity.getAtivo());
     }
+}
+
 }

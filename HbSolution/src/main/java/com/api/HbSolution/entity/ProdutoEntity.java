@@ -7,6 +7,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -18,7 +19,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class ProdutoEntity extends BaseEntity implements UsuarioAuditable{
+public class ProdutoEntity extends BaseEntity {
 
     @Column(name = "nome", nullable = false, length = 255)
     private String nome;
@@ -38,18 +39,6 @@ public class ProdutoEntity extends BaseEntity implements UsuarioAuditable{
     @Column(name = "categoria", length = 100)
     private String categoria;
 
-   @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "usuario_id")
-    private UsuarioEntity usuario;
-
-    @Override
-    public void setUsuario(UsuarioEntity usuario) {
-        this.usuario = usuario;
-    }
-
-    @Override
-    public UsuarioEntity getUsuario() {
-        return this.usuario;
-    }
-
+    
 }
+

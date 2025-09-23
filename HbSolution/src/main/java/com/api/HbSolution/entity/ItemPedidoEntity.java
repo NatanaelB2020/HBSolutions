@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class ItemPedidoEntity extends BaseEntity implements UsuarioAuditable{
+public class ItemPedidoEntity extends BaseEntity implements UsuarioAuditable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pedido_id", nullable = false)
@@ -36,19 +36,21 @@ public class ItemPedidoEntity extends BaseEntity implements UsuarioAuditable{
     @Column(name = "observacao", length = 500)
     private String observacao;
 
+    // Mapeia o usuário, mas não tenta gerar a coluna novamente
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "usuario_id")
+    @JoinColumn(name = "usuario_id", insertable = false, updatable = false)
     private UsuarioEntity usuario;
 
     @Override
     public void setUsuario(UsuarioEntity usuario) {
         this.usuario = usuario;
+        if (usuario != null) {
+            this.setUsuarioId(usuario.getId()); // seta no BaseEntity
+        }
     }
 
     @Override
     public UsuarioEntity getUsuario() {
         return this.usuario;
     }
-
-  
 }

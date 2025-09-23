@@ -1,5 +1,6 @@
 package com.api.HbSolution.service;
 
+import com.api.HbSolution.DTO.LoginRequestDTO;
 import com.api.HbSolution.entity.UsuarioEntity;
 import com.api.HbSolution.repository.UsuarioRepository;
 import com.api.HbSolution.security.JwtUtil;
@@ -25,9 +26,9 @@ public class AuthService {
         this.jwtUtil = jwtUtil;
     }
 
-    public ResponseEntity<?> login(Map<String, String> loginRequest) {
-        String email = loginRequest.get("email");
-        String senha = loginRequest.get("senha");
+    public ResponseEntity<?> login(LoginRequestDTO loginRequest) {
+        String email = loginRequest.getEmail();
+        String senha = loginRequest.getSenha();
 
         UsuarioEntity usuario = usuarioRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));

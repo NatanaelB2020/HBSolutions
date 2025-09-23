@@ -1,13 +1,13 @@
 package com.api.HbSolution.entity;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+
+import jakarta.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "usuario")
@@ -26,9 +26,6 @@ public class UsuarioEntity extends BaseEntity {
     @Column(name = "senha", nullable = false, length = 255)
     private String senha;
 
-    @Column(name = "ativo", nullable = false)
-    private Boolean ativo;
-
     @Column(name = "role", nullable = false, length = 255)
     private String role;
 
@@ -40,4 +37,8 @@ public class UsuarioEntity extends BaseEntity {
     )
     private Set<RoleEntity> roles = new HashSet<>();
 
+    // Mantendo o relacionamento com Empresa, mas sem conflitar com empresaId da BaseEntity
+    @ManyToOne
+    @JoinColumn(name = "empresa_id", insertable = false, updatable = false)
+    private EmpresaEntity empresa;
 }

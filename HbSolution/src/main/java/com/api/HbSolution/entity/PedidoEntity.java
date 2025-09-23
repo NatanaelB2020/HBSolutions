@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class PedidoEntity extends BaseEntity implements UsuarioAuditable {
+public class PedidoEntity extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id", nullable = false)
@@ -37,17 +37,5 @@ public class PedidoEntity extends BaseEntity implements UsuarioAuditable {
     @Column(name = "observacao", length = 500)
     private String observacao;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "usuario_id")
-    private UsuarioEntity usuario;
-
-    @Override
-    public void setUsuario(UsuarioEntity usuario) {
-        this.usuario = usuario;
-    }
-
-    @Override
-    public UsuarioEntity getUsuario() {
-        return usuario;
-    }
+  
 }

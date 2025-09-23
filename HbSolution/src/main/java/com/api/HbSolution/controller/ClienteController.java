@@ -7,7 +7,7 @@ import com.api.HbSolution.entity.ClienteEntity;
 import com.api.HbSolution.service.ClienteService;
 
 @RestController
-@RequestMapping("/api/clientes")
+@RequestMapping("/clientes")
 public class ClienteController extends BaseController<ClienteEntity, ClienteService> {
 }
 

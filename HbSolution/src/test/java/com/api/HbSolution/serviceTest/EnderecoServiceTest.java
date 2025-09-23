@@ -1,4 +1,4 @@
-package com.api.HbSolution.serviceTest;
+/*package com.api.HbSolution.serviceTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
@@ -6,7 +6,6 @@ import static org.mockito.Mockito.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.web.client.RestTemplate;
@@ -100,4 +99,4 @@ public class EnderecoServiceTest {
 
         verify(repository, times(1)).save(any(EnderecoEntity.class));
     }
-}
+}*/

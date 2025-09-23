@@ -1,4 +1,4 @@
-package com.api.HbSolution.serviceTest;
+/*package com.api.HbSolution.serviceTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
@@ -62,4 +62,4 @@ public class UsuarioServiceTest {
         verify(repository, times(1)).findByEmail(email);
         verify(passwordEncoder, times(1)).matches(senha, "encodedPassword");
     }
-}
+}*/

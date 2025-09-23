@@ -1,13 +1,8 @@
 package com.api.HbSolution.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-
+import lombok.*;
 import java.time.LocalDateTime;
-
 import com.api.HbSolution.enums.StatusAtendimento;
 
 @Entity
@@ -15,9 +10,9 @@ import com.api.HbSolution.enums.StatusAtendimento;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @EqualsAndHashCode(callSuper = true)
 public class AtendimentoMesaEntity extends BaseEntity implements UsuarioAuditable {
-
 
     @Column(name = "numero_mesa", nullable = false)
     private Integer numeroMesa;
@@ -26,7 +21,7 @@ public class AtendimentoMesaEntity extends BaseEntity implements UsuarioAuditabl
     @Column(name = "status_atendimento", nullable = false)
     private StatusAtendimento statusAtendimento;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "pedido_id", nullable = false)
     private PedidoEntity pedido;
 
@@ -40,7 +35,7 @@ public class AtendimentoMesaEntity extends BaseEntity implements UsuarioAuditabl
     private String observacao;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "usuario_id")
+    @JoinColumn(name = "usuario_id", insertable = false, updatable = false)
     private UsuarioEntity usuario;
 
     @Override

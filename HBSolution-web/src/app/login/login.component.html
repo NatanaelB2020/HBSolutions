@@ -1,0 +1,39 @@
+<div class="login-container">
+  <div class="login-box">
+    <div class="logo">
+      <img src="assets/logo.svg" alt="MobileApp Logo">
+    </div>
+
+    <h1>Hb Solutions</h1>
+
+    <!-- Formulário reativo -->
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+      <div class="input-group">
+        <i class="fas fa-user"></i>
+        <input type="text" placeholder="Username" formControlName="username">
+      </div>
+
+      <div class="input-group">
+        <i class="fas fa-lock"></i>
+        <input type="password" placeholder="********" formControlName="password">
+      </div>
+
+      <!-- Mensagem de erro do login -->
+      <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+
+      <div class="options">
+        <label>
+          <input type="checkbox"> Remember me
+        </label>
+        <a href="#">Forgot password?</a>
+      </div>
+
+      <button type="submit" class="login-button">Login</button>
+    </form>
+
+    <div class="create-account">
+      <span>Not a member?</span>
+      <a href="#">Create an account</a>
+    </div>
+  </div>
+</div>

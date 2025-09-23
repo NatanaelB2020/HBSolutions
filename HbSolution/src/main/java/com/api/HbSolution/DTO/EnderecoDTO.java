@@ -1,8 +1,10 @@
 package com.api.HbSolution.DTO;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class EnderecoDTO extends BaseDTO {
     private String logradouro;
     private String numero;
