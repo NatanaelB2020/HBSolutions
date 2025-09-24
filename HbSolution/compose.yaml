@@ -3,7 +3,7 @@ version: '3.8'
 services:
   mysql:
     image: mysql:8.0
-    container_name: hbsolution-mysql-1
+    container_name: hbsolution-mysql
     environment:
       MYSQL_DATABASE: HBsolution
       MYSQL_USER: hbsolutionadmin
@@ -11,30 +11,32 @@ services:
       MYSQL_ROOT_PASSWORD: root
     ports:
       - "3306:3306"
+    command: --default-authentication-plugin=caching_sha2_password
     volumes:
-      - mysql_data:/var/lib/mysql 
+      - mysql_data:/var/lib/mysql
     restart: always
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "hbsolutionadmin", "-pBerlolo@0106"]
       interval: 15s
+      timeout: 5s
       retries: 10
 
   backend:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: hbsolution-backend-1
+    container_name: hbsolution-backend
     ports:
       - "8080:8080"
-      - "5005:5005" # porta do debug
+      - "5005:5005" # porta do debug remoto
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/HBsolution?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
       SPRING_DATASOURCE_USERNAME: hbsolutionadmin
       SPRING_DATASOURCE_PASSWORD: Berlolo@0106
-      JWT_SECRET: "S3nh@UltraS3gur@!2025_AplicacaoHbSolution"
-      JWT_EXPIRATION: 86400000
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       SPRING_JPA_SHOW_SQL: "true"
+      JWT_SECRET: "S3nh@UltraS3gur@!2025_AplicacaoHbSolution"
+      JWT_EXPIRATION: 86400000
     depends_on:
       mysql:
         condition: service_healthy
@@ -42,3 +44,4 @@ services:
 
 volumes:
   mysql_data:
+ 
