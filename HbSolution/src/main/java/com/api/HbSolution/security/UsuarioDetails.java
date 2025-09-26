@@ -5,6 +5,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.api.HbSolution.entity.UsuarioEntity;
+import com.api.HbSolution.enums.StatusAtivo;
 
 import java.util.Collection;
 import java.util.List;
@@ -53,7 +54,7 @@ public class UsuarioDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return usuario.getAtivo();
+        // ✅ converte enum para boolean
+        return usuario.getAtivo() == StatusAtivo.ATIVO;
     }
 }
-

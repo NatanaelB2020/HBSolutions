@@ -8,6 +8,7 @@ import com.api.HbSolution.DTO.EnderecoRequest;
 import com.api.HbSolution.DTO.EnderecoResponse;
 import com.api.HbSolution.entity.EnderecoEntity;
 import com.api.HbSolution.entity.UsuarioEntity;
+import com.api.HbSolution.enums.StatusAtivo;
 import com.api.HbSolution.repository.EnderecoRepository;
 import com.api.HbSolution.security.SecurityUtils;
 
@@ -59,7 +60,7 @@ public class EnderecoService extends BaseService<EnderecoEntity> {
             endereco.setEmpresaId(usuarioLogado.getEmpresaId());
         }
 
-        endereco.setAtivo(true); // sempre ativo ao criar
+        endereco.setAtivo(StatusAtivo.ATIVO); 
 
         return enderecoRepository.save(endereco);
     }
@@ -68,13 +69,13 @@ public class EnderecoService extends BaseService<EnderecoEntity> {
     public List<EnderecoEntity> findAll() {
         UsuarioEntity usuarioLogado = SecurityUtils.getUsuarioLogado();
         if (usuarioLogado == null) return List.of();
-        return enderecoRepository.findAllByEmpresaIdAndAtivoTrue(usuarioLogado.getEmpresaId());
+        return enderecoRepository.findAllByEmpresaIdAndAtivo(usuarioLogado.getEmpresaId(), StatusAtivo.ATIVO);
     }
 
     @Override
     public Optional<EnderecoEntity> findById(Long id) {
         UsuarioEntity usuarioLogado = SecurityUtils.getUsuarioLogado();
         if (usuarioLogado == null) return Optional.empty();
-        return enderecoRepository.findByIdAndEmpresaIdAndAtivoTrue(id, usuarioLogado.getEmpresaId());
+        return enderecoRepository.findByIdAndEmpresaIdAndAtivo(id, usuarioLogado.getEmpresaId(), StatusAtivo.ATIVO);
     }
 }

@@ -3,6 +3,7 @@ package com.api.HbSolution.entity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import com.api.HbSolution.enums.StatusAtivo;
 import com.api.HbSolution.security.SecurityUtils;
 
 import jakarta.persistence.*;
@@ -28,8 +29,9 @@ public abstract class BaseEntity implements Serializable {
     @Column(name = "usuario_id", nullable = false, updatable = false)
     private Long usuarioId;
 
-    @Column(name = "ativo", nullable = false)
-    private Boolean ativo = true; // para exclusão lógica
+    @Enumerated(EnumType.STRING) // Salva como texto ("ATIVO"/"INATIVO")
+    @Column(name = "ativo", nullable = false, length = 10)
+    private StatusAtivo ativo = StatusAtivo.ATIVO;
 
     @PrePersist
     private void onCreate() {
@@ -41,7 +43,7 @@ public abstract class BaseEntity implements Serializable {
             this.usuarioId = usuarioLogado.getId();
             this.empresaId = usuarioLogado.getEmpresaId();
         }
-        this.ativo = true;
+        this.ativo = StatusAtivo.ATIVO;
     }
 
     @PreUpdate

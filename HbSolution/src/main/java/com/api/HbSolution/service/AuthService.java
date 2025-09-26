@@ -2,6 +2,7 @@ package com.api.HbSolution.service;
 
 import com.api.HbSolution.DTO.LoginRequestDTO;
 import com.api.HbSolution.entity.UsuarioEntity;
+import com.api.HbSolution.enums.StatusAtivo;
 import com.api.HbSolution.repository.UsuarioRepository;
 import com.api.HbSolution.security.JwtUtil;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,7 @@ public class AuthService {
         UsuarioEntity usuario = usuarioRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
-        if (!usuario.getAtivo()) {
+        if (usuario.getAtivo() == StatusAtivo.INATIVO) {
             return ResponseEntity.status(401).body("Usuário inativo");
         }
 

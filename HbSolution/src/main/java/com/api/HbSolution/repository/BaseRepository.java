@@ -7,13 +7,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 
 import com.api.HbSolution.entity.BaseEntity;
+import com.api.HbSolution.enums.StatusAtivo;
 
 @NoRepositoryBean
 public interface BaseRepository<T extends BaseEntity> extends JpaRepository<T, Long> {
 
-    // Busca todas as entidades ativas de uma empresa
-    List<T> findAllByEmpresaIdAndAtivoTrue(Long empresaId);
+    // Busca todas as entidades com status ativo de uma empresa
+    List<T> findAllByEmpresaIdAndAtivo(Long empresaId, StatusAtivo ativo);
 
-    // Busca entidade ativa por id e empresa
-    Optional<T> findByIdAndEmpresaIdAndAtivoTrue(Long id, Long empresaId);
+    // Busca entidade por id, empresa e status ativo
+    Optional<T> findByIdAndEmpresaIdAndAtivo(Long id, Long empresaId, StatusAtivo ativo);
 }

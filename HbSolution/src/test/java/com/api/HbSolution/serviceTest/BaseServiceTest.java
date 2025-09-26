@@ -15,7 +15,9 @@ import org.mockito.Mockito;
 
 import com.api.HbSolution.entity.BaseEntity;
 import com.api.HbSolution.entity.EmpresaEntity;
+
 import com.api.HbSolution.entity.UsuarioEntity;
+import com.api.HbSolution.enums.StatusAtivo;
 import com.api.HbSolution.entity.UsuarioAuditable;
 import com.api.HbSolution.repository.BaseRepository;
 import com.api.HbSolution.service.BaseService;
@@ -62,11 +64,11 @@ public class BaseServiceTest {
         entity = new TestEntity();
         entity.setId(1L);
         entity.setEmpresaId(empresa.getId());
+        entity.setAtivo(StatusAtivo.ATIVO); // ✅ inicial ativo
 
-        // Ajuste: usa métodos de exclusão lógica
-        when(repository.findByIdAndEmpresaIdAndAtivoTrue(1L, empresa.getId()))
+        // Ajuste: usa métodos com enum StatusAtivo
+        when(repository.findByIdAndEmpresaIdAndAtivo(1L, empresa.getId(), StatusAtivo.ATIVO))
                 .thenReturn(Optional.of(entity));
-        doNothing().when(repository).delete(entity);
         when(repository.save(entity)).thenReturn(entity);
     }
 
@@ -80,6 +82,7 @@ public class BaseServiceTest {
             assertEquals(entity, savedEntity);
             assertEquals(usuario, entity.getUsuario());
             assertEquals(usuario.getEmpresaId(), entity.getEmpresaId());
+            assertEquals(StatusAtivo.ATIVO, entity.getAtivo()); // ✅ checagem com enum
             verify(repository, times(1)).save(entity);
         }
     }
@@ -94,30 +97,29 @@ public class BaseServiceTest {
             assertTrue(result.isPresent());
             assertEquals(entity, result.get());
             verify(repository, times(1))
-                    .findByIdAndEmpresaIdAndAtivoTrue(1L, usuario.getEmpresaId());
+                    .findByIdAndEmpresaIdAndAtivo(1L, usuario.getEmpresaId(), StatusAtivo.ATIVO);
         }
     }
 
     @Test
-void testDelete() {
-    try (MockedStatic<SecurityUtils> mockedSecurity = Mockito.mockStatic(SecurityUtils.class)) {
-        mockedSecurity.when(SecurityUtils::getUsuarioLogado).thenReturn(usuario);
+    void testDelete() {
+        try (MockedStatic<SecurityUtils> mockedSecurity = Mockito.mockStatic(SecurityUtils.class)) {
+            mockedSecurity.when(SecurityUtils::getUsuarioLogado).thenReturn(usuario);
 
-        service.delete(1L);
+            service.delete(1L);
 
-        // Verifica que a busca ocorreu
-        verify(repository, times(1))
-                .findByIdAndEmpresaIdAndAtivoTrue(1L, usuario.getEmpresaId());
+            // Verifica que a busca ocorreu
+            verify(repository, times(1))
+                    .findByIdAndEmpresaIdAndAtivo(1L, usuario.getEmpresaId(), StatusAtivo.ATIVO);
 
-        // Verifica que o save foi chamado (exclusão lógica)
-        verify(repository, times(1)).save(entity);
+            // Verifica que o save foi chamado (exclusão lógica)
+            verify(repository, times(1)).save(entity);
 
-        // A entidade deve ter o usuário setado
-        assertEquals(usuario, entity.getUsuario());
+            // A entidade deve ter o usuário setado
+            assertEquals(usuario, entity.getUsuario());
 
-        // A entidade deve estar inativa (ativo = false)
-        assertFalse(entity.getAtivo());
+            // A entidade deve estar inativa (ativo = INATIVO)
+            assertEquals(StatusAtivo.INATIVO, entity.getAtivo());
+        }
     }
-}
-
 }

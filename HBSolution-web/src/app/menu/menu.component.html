@@ -1,16 +1,17 @@
 <div class="container">
-    <aside class="sidebar">
-      <ul>
-        <li (click)="selecionarMenu('empresa')" [class.active]="menuAtivo === 'empresa'">Empresa</li>
-        <li (click)="selecionarMenu('cliente')" [class.active]="menuAtivo === 'cliente'">Cliente</li>
-        <li (click)="selecionarMenu('produto')" [class.active]="menuAtivo === 'produto'">Produto</li>
-      </ul>
-    </aside>
-  
-    <main class="form-container">
-      <app-empresa-form *ngIf="menuAtivo === 'empresa'"></app-empresa-form>
-      <app-cliente-form *ngIf="menuAtivo === 'cliente'"></app-cliente-form>
-      <app-produto-form *ngIf="menuAtivo === 'produto'"></app-produto-form>
-    </main>
-  </div>
-  
+  <aside class="sidebar">
+    <ul>
+      <li (click)="selecionarMenu('empresa')" [class.active]="menuAtivo === 'empresa'">Empresa</li>
+      <li (click)="selecionarMenu('cliente')" [class.active]="menuAtivo === 'cliente'">Cliente</li>
+      <li (click)="selecionarMenu('produto')" [class.active]="menuAtivo === 'produto'">Produto</li>
+    </ul>
+
+    <button class="logout-button" (click)="logout()">Logout</button>
+  </aside>
+
+  <main class="form-container">
+    <app-empresa-form *ngIf="menuAtivo === 'empresa'"></app-empresa-form>
+    <app-cliente-form *ngIf="menuAtivo === 'cliente'"></app-cliente-form>
+    <app-produto-form *ngIf="menuAtivo === 'produto'"></app-produto-form>
+  </main>
+</div>

@@ -1,0 +1,14 @@
+
+
+hml senha 
+
+EASYPROCESS
+Teste@123
+
+
+netstat -ano | findstr :3306
+
+taskkill /PID 7396 /F 
+
+
+Matriz de compromisso da liderança

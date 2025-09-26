@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.api.HbSolution.entity.BaseEntity;
 import com.api.HbSolution.entity.UsuarioEntity;
+import com.api.HbSolution.enums.StatusAtivo;
 import com.api.HbSolution.entity.UsuarioAuditable;
 import com.api.HbSolution.repository.BaseRepository;
 import com.api.HbSolution.security.SecurityUtils;
@@ -36,26 +37,26 @@ public abstract class BaseService<T extends BaseEntity> {
             ua.setUsuario(usuarioLogado);
         }
 
-        entity.setAtivo(true); // garante que esteja ativo ao salvar
+        entity.setAtivo(StatusAtivo.ATIVO); // garante que esteja ativo ao salvar
         return repository.save(entity);
     }
 
     public Optional<T> findById(Long id) {
         UsuarioEntity usuarioLogado = SecurityUtils.getUsuarioLogado();
         if (usuarioLogado == null) return Optional.empty();
-        return repository.findByIdAndEmpresaIdAndAtivoTrue(id, usuarioLogado.getEmpresaId());
+        return repository.findByIdAndEmpresaIdAndAtivo(id, usuarioLogado.getEmpresaId(), StatusAtivo.ATIVO);
     }
 
     public List<T> findAll() {
         UsuarioEntity usuarioLogado = SecurityUtils.getUsuarioLogado();
         if (usuarioLogado == null) return List.of();
-        return repository.findAllByEmpresaIdAndAtivoTrue(usuarioLogado.getEmpresaId());
+        return repository.findAllByEmpresaIdAndAtivo(usuarioLogado.getEmpresaId(), StatusAtivo.ATIVO);
     }
 
     // ---------------- Exclusão lógica ----------------
     public void delete(Long id) {
         findById(id).ifPresent(entity -> {
-            entity.setAtivo(false);
+            entity.setAtivo(StatusAtivo.INATIVO);
 
             // Seta o usuário que realizou a exclusão, se for UsuarioAuditable
             UsuarioEntity usuarioLogado = SecurityUtils.getUsuarioLogado();
@@ -68,7 +69,7 @@ public abstract class BaseService<T extends BaseEntity> {
     }
 
     public void delete(T entity) {
-        entity.setAtivo(false);
+        entity.setAtivo(StatusAtivo.INATIVO);
 
         UsuarioEntity usuarioLogado = SecurityUtils.getUsuarioLogado();
         if (entity instanceof UsuarioAuditable ua && usuarioLogado != null) {

@@ -2,6 +2,7 @@ package com.api.HbSolution.service;
 
 import org.springframework.stereotype.Service;
 import com.api.HbSolution.entity.UsuarioEntity;
+import com.api.HbSolution.enums.StatusAtivo;
 import com.api.HbSolution.repository.UsuarioRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -34,4 +35,12 @@ public class UsuarioService extends BaseService<UsuarioEntity> {
 
         return usuario;
     }
+
+     public UsuarioEntity atualizarStatusUsuario(Long id, StatusAtivo status) {
+    UsuarioEntity usuario = usuarioRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado"));
+
+    usuario.setAtivo(status);
+    return usuarioRepository.save(usuario);
+}
 }
