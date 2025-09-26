@@ -18,13 +18,13 @@ public class EmpresaService extends BaseService<EmpresaEntity> {
         setRepository(empresaRepository);
     }
 
-
-    public List<EmpresaEntity> buscarPorNome(String nome) {
-        return empresaRepository.findAllByNomeContainingAndAtivo(nome, StatusAtivo.ATIVO);
+    // Busca empresas ativas por nome fantasia
+    public List<EmpresaEntity> buscarPorNome(String nomeFantasia) {
+        return empresaRepository.findAllByNomeFantasiaContainingAndAtivo(nomeFantasia, StatusAtivo.ATIVO);
     }
 
+    // Verifica se já existe empresa ativa com o CNPJ informado
     public boolean existsByCnpj(String cnpj) {
         return empresaRepository.findByCnpjAndAtivo(cnpj, StatusAtivo.ATIVO).isPresent();
     }
-
 }

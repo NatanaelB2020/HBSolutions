@@ -12,7 +12,7 @@ import com.api.HbSolution.enums.StatusAtivo;
 public interface EmpresaRepository extends BaseRepository<EmpresaEntity> {
 
     // Busca empresas ativas que contenham parte do nome
-    List<EmpresaEntity> findAllByNomeContainingAndAtivo(String nome, StatusAtivo status);
+    List<EmpresaEntity> findAllByNomeFantasiaContainingAndAtivo(String nomeFantasia, StatusAtivo status);
 
     // Verifica se já existe empresa ativa com determinado CNPJ
     Optional<EmpresaEntity> findByCnpjAndAtivo(String cnpj, StatusAtivo status);

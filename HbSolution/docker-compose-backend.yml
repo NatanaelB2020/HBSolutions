@@ -10,7 +10,7 @@ services:
       - "8080:8080"
       - "5005:5005"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/HBsolution?useSSL=false&serverTimezone=UTC
+      SPRING_DATASOURCE_URL: jdbc:mysql://hbsolution-mysql:3306/HBsolution?useSSL=false&serverTimezone=UTC
       SPRING_DATASOURCE_USERNAME: hbsolutionadmin
       SPRING_DATASOURCE_PASSWORD: Berlolo@0106
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
@@ -18,3 +18,11 @@ services:
       JWT_SECRET: "S3nh@UltraS3gur@!2025_AplicacaoHbSolution"
       JWT_EXPIRATION: 86400000
     restart: always
+    depends_on:
+      - mysql
+    networks:
+      - hbsolution-net
+
+networks:
+  hbsolution-net:
+    external: true

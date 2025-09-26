@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: .   # contexto do build (a pasta onde está o Dockerfile do Angular)
+      dockerfile: Dockerfile
+    container_name: hbsolution-frontend
+    ports:
+      - "4200:80"  # expõe porta 4200 no host para acessar via navegador
+    restart: always
+    env_file:
+      - .env.frontend
