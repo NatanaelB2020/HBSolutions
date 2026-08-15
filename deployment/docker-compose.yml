@@ -1,0 +1,62 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: hbsolution-postgres
+    environment:
+      POSTGRES_DB: HBsolution
+      POSTGRES_USER: ${POSTGRES_USER:-hbsolutionadmin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-Berlolo@0106}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER:-hbsolutionadmin}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - hbsolution-net
+
+  backend:
+    build:
+      context: ../HbSolution
+      dockerfile: Dockerfile
+    container_name: hbsolution-backend
+    restart: always
+    ports:
+      - "8080:8080"
+      - "5005:5005"
+    environment:
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres:5432/HBsolution"
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME:-hbsolutionadmin}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD:-Berlolo@0106}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: "update"
+      SPRING_JPA_SHOW_SQL: "true"
+      JWT_SECRET: ${JWT_SECRET:-S3nh@UltraS3gur@!2025_AplicacaoHbSolution}
+      JWT_EXPIRATION: ${JWT_EXPIRATION:-86400000}
+    depends_on:
+      - postgres
+    networks:
+      - hbsolution-net
+
+  frontend:
+    build:
+      context: ../HBSolution-web
+      dockerfile: Dockerfile
+    container_name: hbsolution-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - hbsolution-net
+
+volumes:
+  postgres_data:
+
+networks:
+  hbsolution-net:
+    driver: bridge

@@ -22,6 +22,10 @@ public class PedidoEntity extends BaseEntity {
     @JoinColumn(name = "cliente_id", nullable = false)
     private ClienteEntity cliente;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "oportunidade_id")
+    private OportunidadeEntity oportunidade;
+
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemPedidoEntity> itens;
 
@@ -37,5 +41,4 @@ public class PedidoEntity extends BaseEntity {
     @Column(name = "observacao", length = 500)
     private String observacao;
 
-  
 }

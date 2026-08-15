@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../service/auth.service';
 
 @Component({
   selector: 'app-cliente-form',
@@ -14,13 +15,16 @@ import { CommonModule } from '@angular/common';
 export class ClienteFormComponent implements OnInit {
 
   clienteForm!: FormGroup;
-  carregandoEndereco: boolean = false; // Spinner
-  private buscaEmAndamento: boolean = false; // Evita execução duplicada
+  carregandoEndereco: boolean = false;
+
+  mensagemErro: string | null = null;
+  mensagemSucesso: string | null = null;
 
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
@@ -38,76 +42,99 @@ export class ClienteFormComponent implements OnInit {
   }
 
   buscarEndereco() {
+    this.mensagemErro = null;
     const cep = this.clienteForm.get('cep')?.value;
 
-    if (!cep || cep.length !== 8 || this.buscaEmAndamento) return;
-
-    this.buscaEmAndamento = true;
-    this.carregandoEndereco = true;
-
-    const token = localStorage.getItem('authToken');
-    const headers = { Authorization: `Bearer ${token}` };
-
-    this.http.get(`http://localhost:8080/enderecos/buscar/${cep}`, { headers }).subscribe(
-      (dados: any) => {
-        this.clienteForm.patchValue({
-          logradouro: dados.logradouro,
-          bairro: dados.bairro,
-          cidade: dados.cidade,
-          estado: dados.estado
-        });
-        this.carregandoEndereco = false;
-        this.buscaEmAndamento = false;
-      },
-      error => {
-        console.error('Erro ao buscar o endereço', error);
-        this.carregandoEndereco = false;
-        this.buscaEmAndamento = false;
-        // Mensagem não interfere na execução da função
-        alert('Não foi possível buscar o endereço. Verifique seu login ou token.');
+    if (cep && cep.length === 8) {
+      const token = this.authService.getToken();
+      if (!token) {
+        this.mensagemErro = 'Você não está autenticado. Faça login novamente.';
+        return;
       }
-    );
+
+      this.carregandoEndereco = true;
+
+      const headers = new HttpHeaders({
+        'Authorization': `Bearer ${token}`
+      });
+
+      this.http.get(`http://localhost:8080/enderecos/buscar/${cep}`, { headers })
+        .subscribe(
+          (dados: any) => {
+            this.carregandoEndereco = false;
+            this.clienteForm.patchValue({
+              logradouro: dados.logradouro,
+              bairro: dados.bairro,
+              cidade: dados.cidade,
+              estado: dados.estado
+            });
+          },
+          error => {
+            this.carregandoEndereco = false;
+            console.error('Erro ao buscar o endereço', error);
+            this.mensagemErro = 'Não foi possível buscar o endereço. Verifique seu login.';
+          }
+        );
+    }
   }
 
   salvar() {
-    if (!this.clienteForm.valid) {
-      alert('Por favor, preencha todos os campos obrigatórios.');
+    this.mensagemErro = null;
+    this.mensagemSucesso = null;
+
+    if (!this.authService.isLoggedIn()) {
+      this.mensagemErro = 'Você não está autenticado. Faça login novamente.';
       return;
     }
 
-    // Habilita temporariamente campos desabilitados
-    ['logradouro', 'bairro', 'cidade', 'estado'].forEach(campo => this.clienteForm.get(campo)?.enable());
+    if (this.clienteForm.valid) {
+      this.clienteForm.get('logradouro')?.enable();
+      this.clienteForm.get('bairro')?.enable();
+      this.clienteForm.get('cidade')?.enable();
+      this.clienteForm.get('estado')?.enable();
 
-    const cliente = {
-      nome: this.clienteForm.get('nome')?.value,
-      cpf: this.clienteForm.get('cpf')?.value,
-      telefone: this.clienteForm.get('telefone')?.value,
-      endereco: {
-        cep: this.clienteForm.get('cep')?.value,
-        logradouro: this.clienteForm.get('logradouro')?.value,
-        numero: this.clienteForm.get('numero')?.value,
-        bairro: this.clienteForm.get('bairro')?.value,
-        cidade: this.clienteForm.get('cidade')?.value,
-        estado: this.clienteForm.get('estado')?.value
-      }
-    };
+      const cliente = {
+        nome: this.clienteForm.get('nome')?.value,
+        cpf: this.clienteForm.get('cpf')?.value,
+        telefone: this.clienteForm.get('telefone')?.value,
+        endereco: {
+          cep: this.clienteForm.get('cep')?.value,
+          logradouro: this.clienteForm.get('logradouro')?.value,
+          numero: this.clienteForm.get('numero')?.value,
+          bairro: this.clienteForm.get('bairro')?.value,
+          cidade: this.clienteForm.get('cidade')?.value,
+          estado: this.clienteForm.get('estado')?.value
+        }
+      };
 
-    // Desabilita novamente os campos
-    ['logradouro', 'bairro', 'cidade', 'estado'].forEach(campo => this.clienteForm.get(campo)?.disable());
+      this.clienteForm.get('logradouro')?.disable();
+      this.clienteForm.get('bairro')?.disable();
+      this.clienteForm.get('cidade')?.disable();
+      this.clienteForm.get('estado')?.disable();
 
-    this.http.post('http://localhost:8080/clientes', cliente).subscribe(
-      () => {
-        alert('Cliente salvo com sucesso!');
-        this.clienteForm.reset();
-      },
-      error => {
-        console.error('Erro ao salvar o cliente', error);
-        alert('Erro ao salvar o cliente. Tente novamente.');
-      }
-    );
+      const headers = new HttpHeaders({
+        'Authorization': `Bearer ${this.authService.getToken() || ''}`
+      });
+
+      this.http.post('http://localhost:8080/clientes', cliente, { headers })
+        .subscribe(
+          response => {
+            this.mensagemSucesso = 'Cliente salvo com sucesso!';
+            this.clienteForm.reset();
+          },
+          error => {
+            console.error('Erro ao salvar o cliente', error);
+            this.mensagemErro = 'Erro ao salvar o cliente. Tente novamente.';
+          }
+        );
+    } else {
+      this.mensagemErro = 'Por favor, preencha todos os campos obrigatórios.';
+    }
   }
 
   limpar() {
+    this.mensagemErro = null;
+    this.mensagemSucesso = null;
     this.clienteForm.reset();
   }
 

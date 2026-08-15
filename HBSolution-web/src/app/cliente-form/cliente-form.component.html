@@ -20,7 +20,7 @@
     <div class="form-group">
       <label for="cep">CEP</label>
       <div class="input-group">
-        <input id="cep" formControlName="cep" type="text" class="form-control" required>
+        <input id="cep" formControlName="cep" type="text" class="form-control" required (blur)="buscarEndereco()">
         <button type="button" class="btn btn-info" (click)="buscarEndereco()">Buscar</button>
         <span *ngIf="carregandoEndereco" class="spinner-border spinner-border-sm ms-2" role="status"></span>
       </div>
@@ -52,7 +52,7 @@
     </div>
 
     <div class="form-buttons mt-3">
-      <button type="submit" class="btn btn-primary" [disabled]="!clienteForm.valid">Salvar</button>
+      <button type="submit" class="btn btn-primary" (click)="!clienteForm.valid">Salvar</button>
       <button type="button" class="btn btn-secondary" (click)="limpar()">Limpar</button>
       <button type="button" class="btn btn-secondary" (click)="voltar()">Voltar</button>
     </div>
