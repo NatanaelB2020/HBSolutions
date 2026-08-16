@@ -4,9 +4,14 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.api.HbSolution.enums.EtapaOportunidade;
+import com.api.HbSolution.enums.StatusOportunidade;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -31,20 +36,31 @@ public class OportunidadeEntity extends BaseEntity {
     @Column(name = "descricao", length = 1000)
     private String descricao;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "etapa", nullable = false, length = 50)
-    private String etapa;
+    private EtapaOportunidade etapa;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 50)
-    private String status;
+    private StatusOportunidade status;
 
     @Column(name = "valor", precision = 19, scale = 2)
     private BigDecimal valor;
 
-    @Column(name = "probabilidade", precision = 5, scale = 2)
-    private BigDecimal probabilidade;
+    @Column(name = "probabilidade")
+    private Integer probabilidade;
 
-    @Column(name = "data_fechamento")
-    private LocalDate dataFechamento;
+    @Column(name = "data_fechamento_estimada")
+    private LocalDate dataFechamentoEstimada;
+
+    @Column(name = "data_fechamento_real")
+    private LocalDate dataFechamentoReal;
+
+    @Column(name = "motivo_perda", length = 500)
+    private String motivoPerda;
+
+    @Column(name = "alerta_ativo")
+    private Boolean alertaAtivo;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "lead_id")

@@ -1,21 +1,20 @@
-version: '3.8'
+version: "3.8"
 
 services:
   postgres:
-    image: postgres:latest
+    image: postgres:16
     container_name: hbsolution-postgres-1
     environment:
       POSTGRES_DB: HBsolution
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin123
+      POSTGRES_USER: hbsolutionadmin
+      POSTGRES_PASSWORD: Berlolo@0106
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql
     restart: always
 
 volumes:
   postgres_data:
-
 
   # docker-compose up --build

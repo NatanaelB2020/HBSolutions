@@ -7,19 +7,21 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig {
 
     private final UsuarioDetailsService usuarioDetailsService;
     private final JwtAuthenticationFilter jwtFilter;
 
     public SecurityConfig(UsuarioDetailsService usuarioDetailsService,
-                          JwtAuthenticationFilter jwtFilter) {
+            JwtAuthenticationFilter jwtFilter) {
         this.usuarioDetailsService = usuarioDetailsService;
         this.jwtFilter = jwtFilter;
     }
@@ -28,16 +30,20 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        // login/signup ficam liberados
-                        .requestMatchers("/auth/**").permitAll()
+                        // login/signup e documentação ficam liberados
+                        .requestMatchers("/auth/**",
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html")
+                        .permitAll()
                         // suas APIs exigem token
                         .requestMatchers("/api/clientes/**",
-                                         "/api/empresas/**",
-                                         "/api/enderecos/**",
-                                         "/api/produtos/**",
-                                         "/api/usuarios/**").authenticated()
-                        .anyRequest().permitAll()
-                )
+                                "/api/empresas/**",
+                                "/api/enderecos/**",
+                                "/api/produtos/**",
+                                "/api/usuarios/**")
+                        .authenticated()
+                        .anyRequest().permitAll())
                 // adiciona o filtro JWT antes do filtro padrão de autenticação
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

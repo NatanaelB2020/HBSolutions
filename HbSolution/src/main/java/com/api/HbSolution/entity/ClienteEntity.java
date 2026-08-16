@@ -23,6 +23,9 @@ public class ClienteEntity extends BaseEntity implements UsuarioAuditable {
     @Column(name = "nome", nullable = false, length = 255)
     private String nome;
 
+    @Column(name = "email", length = 255)
+    private String email;
+
     @Column(name = "cpf", unique = true, nullable = false, length = 11)
     private String cpf;
 

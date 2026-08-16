@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.api.HbSolution.entity.ClienteEntity;
 import com.api.HbSolution.entity.UsuarioEntity;
+import com.api.HbSolution.enums.StatusAtivo;
 import com.api.HbSolution.repository.ClienteRepository;
 import com.api.HbSolution.security.SecurityUtils;
 
@@ -23,19 +24,21 @@ public class ClienteService extends BaseService<ClienteEntity> {
     @Override
     public List<ClienteEntity> findAll() {
         UsuarioEntity usuarioLogado = SecurityUtils.getUsuarioLogado();
-        if (usuarioLogado == null) return List.of();
-        return clienteRepository.findAllByEmpresaIdAndAtivoTrue(usuarioLogado.getEmpresaId());
+        if (usuarioLogado == null)
+            return List.of();
+        return clienteRepository.findAllByEmpresaIdAndAtivo(usuarioLogado.getEmpresaId(), StatusAtivo.ATIVO);
     }
 
     @Override
     public Optional<ClienteEntity> findById(Long id) {
         UsuarioEntity usuarioLogado = SecurityUtils.getUsuarioLogado();
-        if (usuarioLogado == null) return Optional.empty();
-        return clienteRepository.findByIdAndEmpresaIdAndAtivoTrue(id, usuarioLogado.getEmpresaId());
+        if (usuarioLogado == null)
+            return Optional.empty();
+        return clienteRepository.findByIdAndEmpresaIdAndAtivo(id, usuarioLogado.getEmpresaId(), StatusAtivo.ATIVO);
     }
 
     // Método extra para buscar clientes de uma empresa específica (opcional)
     public List<ClienteEntity> findAllByEmpresaId(Long empresaId) {
-        return clienteRepository.findAllByEmpresaIdAndAtivoTrue(empresaId);
+        return clienteRepository.findAllByEmpresaIdAndAtivo(empresaId, StatusAtivo.ATIVO);
     }
 }

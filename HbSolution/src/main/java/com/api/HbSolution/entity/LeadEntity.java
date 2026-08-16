@@ -1,7 +1,14 @@
 package com.api.HbSolution.entity;
 
+import java.time.LocalDateTime;
+
+import com.api.HbSolution.enums.OrigemLead;
+import com.api.HbSolution.enums.StatusLead;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -28,17 +35,31 @@ public class LeadEntity extends BaseEntity {
     @Column(name = "telefone", length = 20)
     private String telefone;
 
-    @Column(name = "origem", length = 100)
-    private String origem;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "origem", nullable = false, length = 50)
+    private OrigemLead origem;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 50)
-    private String status;
+    private StatusLead status;
 
     @Column(name = "score")
     private Integer score;
 
     @Column(name = "observacao", length = 500)
     private String observacao;
+
+    @Column(name = "data_conversao")
+    private LocalDateTime dataConversao;
+
+    @Column(name = "motivo_desqualificacao", length = 500)
+    private String motivoDesqualificacao;
+
+    @Column(name = "lgpd_consentimento")
+    private Boolean lgpdConsentimento;
+
+    @Column(name = "lgpd_consentimento_data")
+    private LocalDateTime lgpdConsentimentoData;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "empresa_id", insertable = false, updatable = false)
