@@ -1,0 +1,51 @@
+<section class="lead-list-container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; gap: 12px;">
+        <h2>Meus Leads</h2>
+        <div style="display: flex; gap: 8px;">
+            <button type="button" class="btn-secondary" [routerLink]="['/leads/importar']">Importar CSV</button>
+            <button type="button" class="btn-primary" [routerLink]="['/leads/novo']">Novo Lead</button>
+        </div>
+    </div>
+
+    <table *ngIf="leads.length; else vazio">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Telefone</th>
+                <th>Origem</th>
+                <th>Score</th>
+                <th>Status</th>
+                <th>Ação</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let lead of leads">
+                <td>{{ lead.nome }}</td>
+                <td>{{ lead.telefone }}</td>
+                <td>{{ lead.origem }}</td>
+                <td>
+                    <div class="score-cell">
+                        <span>{{ lead.score }}</span>
+                        <div class="score-bar">
+                            <div class="score-fill" [style.width]="getScoreWidth(lead.score)"></div>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <span [ngClass]="getStatusClass(lead.status)">{{ lead.status }}</span>
+                </td>
+                <td>
+                    <a [routerLink]="['/leads', lead.id, 'editar']" class="btn-edit" title="Editar lead">✏️</a>
+                    <button *ngIf="podeConverter(lead.status)" type="button" class="btn-converter"
+                        (click)="converterLead(lead.id)">
+                        Converter
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ng-template #vazio>
+        <p>Nenhum lead encontrado.</p>
+    </ng-template>
+</section>

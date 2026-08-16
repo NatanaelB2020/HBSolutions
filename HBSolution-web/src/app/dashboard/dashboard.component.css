@@ -1,0 +1,78 @@
+.dashboard-container {
+    padding: 24px;
+    display: grid;
+    gap: 20px;
+}
+
+h2,
+h3 {
+    margin: 0;
+}
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+}
+
+.card {
+    background: #f7f7f7;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 20px;
+    display: grid;
+    gap: 8px;
+}
+
+.icon {
+    font-size: 1.5rem;
+}
+
+.card strong {
+    font-size: 0.95rem;
+    color: #333;
+}
+
+.card p {
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #111;
+}
+
+.grafico-container {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+canvas {
+    display: block;
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    background: #fff;
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+.atividades {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.atividades ul {
+    margin: 12px 0 0;
+    padding-left: 20px;
+    display: grid;
+    gap: 8px;
+}
+
+.atrasada {
+    color: #c62828;
+    font-weight: 600;
+}

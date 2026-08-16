@@ -1,0 +1,90 @@
+.fechar-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: #f3f4f6;
+}
+
+.fechar-form {
+    width: 100%;
+    max-width: 500px;
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+    padding: 28px;
+}
+
+.fechar-form h2 {
+    margin: 0 0 20px;
+    font-size: 1.6rem;
+    color: #111827;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 18px;
+}
+
+.campo label {
+    font-weight: 600;
+    color: #374151;
+}
+
+.campo input,
+.campo select,
+.campo textarea {
+    width: 100%;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+.campo textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.acoes {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.btn-confirmar,
+.btn-cancelar {
+    flex: 1;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.btn-confirmar {
+    background: #22c55e;
+    color: white;
+}
+
+.btn-confirmar:hover {
+    background: #16a34a;
+}
+
+.btn-cancelar {
+    background: #e5e7eb;
+    color: #111827;
+}
+
+.btn-cancelar:hover {
+    background: #d1d5db;
+}
+
+small {
+    color: #dc2626;
+    font-size: 0.8rem;
+}

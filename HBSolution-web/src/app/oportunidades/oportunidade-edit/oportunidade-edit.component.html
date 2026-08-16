@@ -1,0 +1,35 @@
+<section class="oportunidade-form-container">
+    <h2>Editar Oportunidade</h2>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="field">
+            <label for="titulo">Título</label>
+            <input id="titulo" type="text" formControlName="titulo" />
+        </div>
+
+        <div class="field">
+            <label for="descricao">Descrição</label>
+            <textarea id="descricao" rows="4" formControlName="descricao"></textarea>
+        </div>
+
+        <div class="field">
+            <label for="valor">Valor</label>
+            <input id="valor" type="number" min="0" step="0.01" formControlName="valor" />
+        </div>
+
+        <div class="field">
+            <label for="probabilidade">Probabilidade</label>
+            <input id="probabilidade" type="number" min="0" max="100" formControlName="probabilidade" />
+        </div>
+
+        <div class="field">
+            <label for="dataFechamentoEstimada">Data de fechamento estimada</label>
+            <input id="dataFechamentoEstimada" type="date" formControlName="dataFechamentoEstimada" />
+        </div>
+
+        <div class="actions">
+            <button type="submit" class="btn-primary">Salvar Alterações</button>
+            <a [routerLink]="['/oportunidades', oportunidadeId]" class="btn-link">Voltar</a>
+        </div>
+    </form>
+</section>

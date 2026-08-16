@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { ToastService } from '../shared/components/toast/toast.service';
 
 @Component({
   selector: 'app-produto-form',
@@ -11,13 +12,14 @@ import { Router } from '@angular/router';
   styleUrls: ['./produto-form.component.css']
 })
 export class ProdutoFormComponent implements OnInit {
-  
+
   produtoForm!: FormGroup;
-  
+
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private toastService: ToastService
   ) { }
 
   ngOnInit() {
@@ -44,25 +46,25 @@ export class ProdutoFormComponent implements OnInit {
         categoria: this.produtoForm.get('categoria')?.value,
         empresa: { id: this.produtoForm.get('idEmpresa')?.value }
       };
-  
+
       console.log('Dados do produto a serem enviados:', produto);
-  
+
       // Enviar dados para o backend
       this.http.post('http://localhost:8080/produtos', produto).subscribe(
         response => {
           console.log('Produto salvo com sucesso!', response);
-          alert('Produto salvo com sucesso!');
-          
+          this.toastService.sucesso('Produto salvo com sucesso!');
+
           // Limpe o formulário após salvar
           this.produtoForm.reset();
         },
         error => {
           console.error('Erro ao salvar o produto', error);
-          alert('Erro ao salvar o produto. Tente novamente.');
+          this.toastService.erro('Erro ao salvar o produto. Tente novamente.');
         }
       );
     } else {
-      alert('Por favor, preencha todos os campos obrigatórios.');
+      this.toastService.erro('Por favor, preencha todos os campos obrigatórios.');
     }
   }
 

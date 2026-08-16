@@ -1,8 +1,16 @@
 <div class="container">
   <aside class="sidebar">
     <ul>
+      <li (click)="selecionarMenu('dashboard')" [class.active]="menuAtivo === 'dashboard'">Dashboard</li>
+      <li (click)="selecionarMenu('leads')" [class.active]="menuAtivo === 'leads'">Meus Leads</li>
+      <li (click)="selecionarMenu('importar-leads')" [class.active]="menuAtivo === 'importar-leads'">Importar Leads</li>
+      <li (click)="selecionarMenu('novo-lead')" [class.active]="menuAtivo === 'novo-lead'">Novo Lead</li>
+      <li (click)="selecionarMenu('pipeline')" [class.active]="menuAtivo === 'pipeline'">Pipeline</li>
+      <li (click)="selecionarMenu('atividades')" [class.active]="menuAtivo === 'atividades'">Atividades</li>
       <li (click)="selecionarMenu('empresa')" [class.active]="menuAtivo === 'empresa'">Empresa</li>
-      <li (click)="selecionarMenu('cliente')" [class.active]="menuAtivo === 'cliente'">Cliente</li>
+      <li [class.active]="menuAtivo === 'cliente'">
+        <a [routerLink]="['/clientes']" (click)="selecionarMenu('cliente')">Clientes</a>
+      </li>
       <li (click)="selecionarMenu('produto')" [class.active]="menuAtivo === 'produto'">Produto</li>
     </ul>
 
@@ -10,6 +18,11 @@
   </aside>
 
   <main class="form-container">
+    <app-dashboard *ngIf="menuAtivo === 'dashboard'"></app-dashboard>
+    <app-lead-list *ngIf="menuAtivo === 'leads'"></app-lead-list>
+    <app-lead-import *ngIf="menuAtivo === 'importar-leads'"></app-lead-import>
+    <app-pipeline *ngIf="menuAtivo === 'pipeline'"></app-pipeline>
+    <app-atividade-list *ngIf="menuAtivo === 'atividades'"></app-atividade-list>
     <app-empresa-form *ngIf="menuAtivo === 'empresa'"></app-empresa-form>
     <app-cliente-form *ngIf="menuAtivo === 'cliente'"></app-cliente-form>
     <app-produto-form *ngIf="menuAtivo === 'produto'"></app-produto-form>

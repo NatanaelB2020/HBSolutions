@@ -1,0 +1,47 @@
+<section class="lead-import-container">
+    <h2>Importar Leads</h2>
+
+    <div class="upload-panel" [class.has-file]="arquivoSelecionado">
+        <label class="upload-label" for="csvFileInput">
+            <span>Selecionar arquivo CSV</span>
+            <input id="csvFileInput" type="file" accept=".csv" (change)="onFileSelected($event)" />
+        </label>
+    </div>
+
+    <small class="instruction-text">Arquivo CSV com colunas: nome;email;telefone;origem;observacao</small>
+
+    <button type="button" class="submit-button" [disabled]="!arquivoSelecionado" (click)="onSubmit()">
+        Enviar CSV
+    </button>
+
+    <div class="resultado" *ngIf="resultado">
+        <div class="cards-grid">
+            <div class="metric-card info">
+                <span class="label">Total lidos</span>
+                <strong>{{ resultado.totalLidos ?? 0 }}</strong>
+            </div>
+
+            <div class="metric-card success">
+                <span class="label">Importados</span>
+                <strong>{{ resultado.importados ?? 0 }}</strong>
+            </div>
+
+            <div class="metric-card warning">
+                <span class="label">Atualizados</span>
+                <strong>{{ resultado.atualizados ?? 0 }}</strong>
+            </div>
+
+            <div class="metric-card danger">
+                <span class="label">Erros</span>
+                <strong>{{ resultado.erros ?? 0 }}</strong>
+            </div>
+        </div>
+
+        <div class="erros-panel" *ngIf="(resultado.listaErros ?? []).length">
+            <h3>Lista de erros</h3>
+            <ul>
+                <li *ngFor="let erro of (resultado.listaErros ?? []).slice(0, 10)">{{ erro }}</li>
+            </ul>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,56 @@
+<section class="dashboard-container">
+    <h2>Dashboard</h2>
+
+    <div class="cards-grid" *ngIf="dados; else carregando">
+        <div class="card">
+            <span class="icon">💰</span>
+            <strong>Pipeline</strong>
+            <p>R$ {{ dados.valorPipeline }}</p>
+        </div>
+
+        <div class="card">
+            <span class="icon">💵</span>
+            <strong>Vendido Mês</strong>
+            <p>R$ {{ dados.totalVendidoMes }}</p>
+        </div>
+
+        <div class="card">
+            <span class="icon">📈</span>
+            <strong>Conversão</strong>
+            <p>{{ dados.taxaConversaoMes }}%</p>
+        </div>
+
+        <div class="card">
+            <span class="icon">🎯</span>
+            <strong>Oportunidades</strong>
+            <p>{{ dados.quantidadeOportunidadesAtivas }}</p>
+        </div>
+    </div>
+
+    <ng-template #carregando>
+        <p>Carregando dados...</p>
+    </ng-template>
+
+    <div class="grafico-container" *ngIf="vendasPorDia.length">
+        <h3>Vendas do mês</h3>
+        <canvas #grafico width="600" height="200"></canvas>
+    </div>
+
+    <div class="atividades" *ngIf="dados">
+        <h3>Atividades Hoje</h3>
+
+        <ul *ngIf="dados.atividadesHoje; else semAtividades">
+            <li>Quantidade de atividades hoje: {{ dados.atividadesHoje }}</li>
+            <li *ngIf="dados.atividadesAtrasadas > 0" class="atrasada">
+                Há {{ dados.atividadesAtrasadas }} atividades atrasadas.
+            </li>
+            <li *ngIf="dados.atividadesAtrasadas === 0">
+                Nenhuma atividade atrasada.
+            </li>
+        </ul>
+
+        <ng-template #semAtividades>
+            <p>Nenhuma atividade registrada hoje.</p>
+        </ng-template>
+    </div>
+</section>

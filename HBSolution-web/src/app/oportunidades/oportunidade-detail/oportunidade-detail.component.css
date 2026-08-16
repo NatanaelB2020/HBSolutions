@@ -1,0 +1,190 @@
+.detalhe-container {
+    max-width: 980px;
+    margin: 32px auto;
+    padding: 24px;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.badges {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.action-buttons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.badge {
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #1f2937;
+    background: #eef2ff;
+}
+
+.badge.status {
+    background: #e0f2fe;
+}
+
+.badge.fechado {
+    background: #e5e7eb;
+    color: #374151;
+}
+
+.dados-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.info-box,
+.descricao-box,
+.atividades-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.descricao-box,
+.atividades-box {
+    margin-bottom: 20px;
+}
+
+.atividade-list {
+    display: grid;
+    gap: 12px;
+}
+
+.atividade-item {
+    border: 1px solid #dfe7f5;
+    border-radius: 10px;
+    background: #fff;
+    padding: 12px 14px;
+}
+
+.atividade-topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+    gap: 8px;
+}
+
+.nova-atividade-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 16px;
+    margin-top: 20px;
+}
+
+.nova-atividade-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.campo-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+    min-width: 180px;
+}
+
+.campo-full {
+    flex: 1 1 100%;
+}
+
+.campo label {
+    font-weight: 600;
+    color: #374151;
+}
+
+.campo input,
+.campo select,
+.campo textarea {
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 0.95rem;
+}
+
+.campo textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.footer-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 16px;
+}
+
+.btn-fechar,
+.btn-voltar,
+.btn-agendar {
+    border: none;
+    border-radius: 10px;
+    padding: 10px 16px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.btn-fechar {
+    background: #22c55e;
+    color: white;
+}
+
+.btn-fechar:hover {
+    background: #16a34a;
+}
+
+.btn-agendar {
+    background: #2563eb;
+    color: white;
+    align-self: flex-start;
+}
+
+.btn-agendar:hover {
+    background: #1d4ed8;
+}
+
+.btn-voltar {
+    background: #2563eb;
+    color: white;
+}
+
+.btn-voltar:hover {
+    background: #1d4ed8;
+}

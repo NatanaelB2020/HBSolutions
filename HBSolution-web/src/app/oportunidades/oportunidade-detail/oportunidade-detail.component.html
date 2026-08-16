@@ -1,0 +1,113 @@
+<section class="detalhe-container" *ngIf="oportunidade">
+    <div class="header-row">
+        <h2>{{ oportunidade.titulo }}</h2>
+        <div class="header-actions">
+            <div class="badges">
+                <span class="badge etapa">{{ oportunidade.etapa }}</span>
+                <span class="badge status">{{ oportunidade.status }}</span>
+                <span *ngIf="oportunidade.status === 'GANHA' || oportunidade.status === 'PERDIDA'"
+                    class="badge fechado">Fechada</span>
+            </div>
+
+            <div class="action-buttons">
+                <button type="button" class="btn-editar" [routerLink]="['/oportunidades', oportunidade.id, 'editar']">
+                    ✏️ Editar
+                </button>
+                <button *ngIf="oportunidade.status === 'ABERTA' || oportunidade.status === 'PAUSADA'" type="button"
+                    class="btn-fechar" (click)="irParaFechamento()">
+                    Fechar Oportunidade
+                </button>
+                <button type="button" class="btn-voltar" (click)="voltar()">Voltar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="dados-grid">
+        <div class="info-box">
+            <strong>Valor</strong>
+            <p>R$ {{ oportunidade.valor }}</p>
+        </div>
+
+        <div class="info-box">
+            <strong>Probabilidade</strong>
+            <p>{{ oportunidade.probabilidade }}%</p>
+        </div>
+
+        <div class="info-box">
+            <strong>Lead / Cliente</strong>
+            <p>{{ oportunidade.cliente?.nome || oportunidade.lead?.nome || 'Sem contato' }}</p>
+        </div>
+    </div>
+
+    <div class="descricao-box">
+        <h3>Descrição</h3>
+        <p>{{ oportunidade.descricao }}</p>
+    </div>
+
+    <div class="atividades-box">
+        <h3>Atividades</h3>
+
+        <div class="atividade-list" *ngIf="atividades.length; else semAtividades">
+            <div class="atividade-item" *ngFor="let atividade of atividades">
+                <div class="atividade-topo">
+                    <strong>{{ atividade.titulo }}</strong>
+                    <span>{{ atividade.status }}</span>
+                </div>
+                <p>{{ atividade.tipo }}</p>
+                <small>{{ atividade.dataAgendamento | date:'dd/MM/yyyy' }}</small>
+            </div>
+        </div>
+
+        <ng-template #semAtividades>
+            <p>Nenhuma atividade cadastrada para esta oportunidade.</p>
+        </ng-template>
+    </div>
+
+    <div class="nova-atividade-box">
+        <h3>Nova Atividade</h3>
+
+        <form class="nova-atividade-form" (ngSubmit)="agendarAtividade()" #formAtividade="ngForm">
+            <div class="campo-row">
+                <div class="campo">
+                    <label for="titulo">Título</label>
+                    <input id="titulo" name="titulo" [(ngModel)]="novaAtividade.titulo" required />
+                </div>
+
+                <div class="campo">
+                    <label for="tipo">Tipo</label>
+                    <select id="tipo" name="tipo" [(ngModel)]="novaAtividade.tipo" required>
+                        <option value="LIGACAO">LIGACAO</option>
+                        <option value="EMAIL">EMAIL</option>
+                        <option value="REUNIAO">REUNIAO</option>
+                        <option value="WHATSAPP">WHATSAPP</option>
+                        <option value="VISITA">VISITA</option>
+                        <option value="TAREFA">TAREFA</option>
+                        <option value="NOTA">NOTA</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="campo-row">
+                <div class="campo campo-full">
+                    <label for="descricao">Descrição</label>
+                    <textarea id="descricao" name="descricao" [(ngModel)]="novaAtividade.descricao" rows="3"></textarea>
+                </div>
+            </div>
+
+            <div class="campo-row">
+                <div class="campo campo-full">
+                    <label for="dataAgendamento">Data e hora</label>
+                    <input id="dataAgendamento" name="dataAgendamento" type="datetime-local"
+                        [(ngModel)]="novaAtividade.dataAgendamento" required />
+                </div>
+            </div>
+
+            <button type="submit" class="btn-agendar" [disabled]="formAtividade.invalid">Agendar Atividade</button>
+        </form>
+    </div>
+
+    <div class="footer-actions">
+        <button type="button" class="btn-voltar" (click)="voltar()">Voltar</button>
+    </div>
+
+</section>

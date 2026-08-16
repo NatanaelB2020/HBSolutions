@@ -1,0 +1,43 @@
+<section class="atividade-list-container">
+    <div *ngIf="listaVazia" class="empty-state">
+        <p>Nenhuma atividade pendente 🎉</p>
+    </div>
+
+    <div class="grid-secoes" *ngIf="!listaVazia">
+        <div class="secao secao-hoje">
+            <h2>Hoje</h2>
+
+            <div *ngIf="atividadesHoje.length; else vazioHoje" class="lista">
+                <div class="atividade-item" *ngFor="let atividade of atividadesHoje">
+                    <label class="checkbox-line">
+                        <input type="checkbox" (change)="marcarComoFeita(atividade.id, 'hoje')" />
+                        <div class="conteudo-item">
+                            <span class="titulo-item">{{ atividade.titulo }}</span>
+                            <small>{{ atividade.tipo }} • {{ atividade.dataAgendamento | date:'HH:mm' }}</small>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <ng-template #vazioHoje>
+                <p class="vazio-texto">Nenhuma atividade hoje.</p>
+            </ng-template>
+        </div>
+
+        <div class="secao secao-atrasadas" *ngIf="atividadesAtrasadas.length">
+            <h2>Atrasadas</h2>
+
+            <div class="lista">
+                <div class="atividade-item atrasada" *ngFor="let atividade of atividadesAtrasadas">
+                    <label class="checkbox-line">
+                        <input type="checkbox" (change)="marcarComoFeita(atividade.id, 'atrasadas')" />
+                        <div class="conteudo-item">
+                            <span class="titulo-item">{{ atividade.titulo }}</span>
+                            <small>{{ atividade.tipo }} • {{ atividade.dataAgendamento | date:'HH:mm' }}</small>
+                        </div>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

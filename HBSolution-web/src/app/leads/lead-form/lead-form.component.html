@@ -1,0 +1,39 @@
+<section class="lead-form-container">
+    <h2>{{ leadId ? 'Editar Lead' : 'Novo Lead' }}</h2>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="field">
+            <label for="nome">Nome</label>
+            <input id="nome" type="text" formControlName="nome" />
+        </div>
+
+        <div class="field">
+            <label for="email">Email</label>
+            <input id="email" type="email" formControlName="email" />
+        </div>
+
+        <div class="field">
+            <label for="telefone">Telefone</label>
+            <input id="telefone" type="text" formControlName="telefone" />
+        </div>
+
+        <div class="field">
+            <label for="origem">Origem</label>
+            <select id="origem" formControlName="origem">
+                <option *ngFor="let origem of opcoesOrigem" [value]="origem">
+                    {{ origem }}
+                </option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label for="observacao">Observação</label>
+            <textarea id="observacao" rows="4" formControlName="observacao"></textarea>
+        </div>
+
+        <div class="actions">
+            <button type="submit" class="btn-primary">{{ tituloBotao }}</button>
+            <a routerLink="/leads" class="btn-link">Voltar</a>
+        </div>
+    </form>
+</section>

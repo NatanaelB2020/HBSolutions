@@ -1,0 +1,76 @@
+.pipeline-container {
+    padding: 24px;
+}
+
+h2 {
+    margin-bottom: 20px;
+}
+
+.pipeline-columns {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    overflow-x: auto;
+}
+
+.coluna {
+    flex: 1;
+    min-width: 220px;
+    background: #f5f5f5;
+    border-radius: 12px;
+    padding: 16px;
+    display: grid;
+    gap: 12px;
+    min-height: 220px;
+}
+
+.coluna h3 {
+    margin: 0;
+    font-size: 1rem;
+    text-transform: uppercase;
+}
+
+.cards {
+    display: grid;
+    gap: 12px;
+}
+
+.card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 14px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    display: grid;
+    gap: 8px;
+}
+
+.card h4 {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.card p {
+    margin: 0;
+    color: #15803d;
+    font-weight: 700;
+}
+
+.vazio {
+    margin: 0;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.cdk-drag-preview {
+    opacity: 0.8;
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.cdk-drag-placeholder {
+    opacity: 0.3;
+}
+
+.cdk-drop-list-dragging .cdk-drag {
+    transition: transform 250ms;
+}

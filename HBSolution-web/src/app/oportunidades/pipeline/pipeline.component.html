@@ -1,0 +1,22 @@
+<section class="pipeline-container">
+    <h2>Pipeline de Oportunidades</h2>
+
+    <div class="pipeline-columns" *ngIf="pipeline">
+        <div class="coluna" *ngFor="let etapa of etapas" cdkDropList [cdkDropListData]="pipeline[etapa]"
+            (cdkDropListDropped)="soltar($event, etapa)">
+            <h3>{{ getNomeEtapa(etapa) }}</h3>
+
+            <div class="cards" *ngIf="getEtapaLista(etapa).length; else vazio">
+                <div class="card" *ngFor="let op of pipeline[etapa]" cdkDrag [cdkDragData]="op"
+                    [routerLink]="['/oportunidades', op.id]" style="cursor: pointer;">
+                    <h4>{{ op.titulo }}</h4>
+                    <p>{{ op.valor | currencyBr }}</p>
+                </div>
+            </div>
+
+            <ng-template #vazio>
+                <p class="vazio">Nenhuma oportunidade</p>
+            </ng-template>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,35 @@
+<section class="fechar-container">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="fechar-form">
+        <h2>Fechar Oportunidade - {{ titulo }}</h2>
+
+        <div class="campo">
+            <label>Valor atual</label>
+            <input type="text" [value]="'R$ ' + valor" readonly />
+        </div>
+
+        <div class="campo">
+            <label for="status">Status</label>
+            <select id="status" formControlName="status">
+                <option value="GANHA">GANHA</option>
+                <option value="PERDIDA">PERDIDA</option>
+            </select>
+        </div>
+
+        <div class="campo" *ngIf="mostrarMotivo">
+            <label for="motivo">Motivo da perda</label>
+            <textarea id="motivo" formControlName="motivo" rows="4" placeholder="Descreva o motivo da perda"></textarea>
+            <small *ngIf="motivoControl?.invalid && motivoControl?.touched">Informe o motivo da perda.</small>
+        </div>
+
+        <div class="campo" *ngIf="mostrarValorFinal">
+            <label for="valorFinal">Valor final</label>
+            <input id="valorFinal" type="number" min="0" step="0.01" formControlName="valorFinal" placeholder="0,00" />
+            <small *ngIf="valorFinalControl?.invalid && valorFinalControl?.touched">Informe o valor final.</small>
+        </div>
+
+        <div class="acoes">
+            <button type="submit" class="btn-confirmar">Confirmar Fechamento</button>
+            <button type="button" class="btn-cancelar" (click)="cancelar()">Cancelar</button>
+        </div>
+    </form>
+</section>

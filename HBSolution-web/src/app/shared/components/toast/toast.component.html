@@ -1,0 +1,6 @@
+<div class="toast-container" *ngIf="(toasts$ | async)?.length">
+    <div *ngFor="let toast of toasts$ | async; trackBy: trackByToast" class="toast" [ngClass]="toast.type" role="status"
+        aria-live="polite">
+        {{ toast.message }}
+    </div>
+</div>

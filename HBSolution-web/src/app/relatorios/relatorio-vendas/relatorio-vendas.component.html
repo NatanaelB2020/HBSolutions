@@ -1,0 +1,51 @@
+<section class="relatorio-container">
+    <h2>Relatório de Vendas</h2>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="filtro-form">
+        <div class="field-group">
+            <label for="dataInicio">De</label>
+            <input id="dataInicio" type="date" formControlName="dataInicio" />
+        </div>
+
+        <div class="field-group">
+            <label for="dataFim">Até</label>
+            <input id="dataFim" type="date" formControlName="dataFim" />
+        </div>
+
+        <button type="submit" [disabled]="form.invalid || !isDateRangeValid">Gerar Relatório</button>
+    </form>
+
+    <div class="resultado" *ngIf="mostrandoResultado && resultado">
+        <div class="cards-grid">
+            <div class="card">
+                <span class="label">💰 Total Vendido</span>
+                <strong>R$ {{ resultado.totalVendido | number:'1.2-2' }}</strong>
+            </div>
+
+            <div class="card">
+                <span class="label">💸 Total Perdido</span>
+                <strong>R$ {{ resultado.totalPerdido | number:'1.2-2' }}</strong>
+            </div>
+
+            <div class="card">
+                <span class="label">📊 Ticket Médio</span>
+                <strong>R$ {{ resultado.ticketMedio | number:'1.2-2' }}</strong>
+            </div>
+
+            <div class="card">
+                <span class="label">📈 Taxa de Conversão</span>
+                <strong>{{ resultado.taxaConversaoPeriodo | number:'1.2-2' }}%</strong>
+            </div>
+
+            <div class="card">
+                <span class="label">🛒 Quantidade de Vendas</span>
+                <strong>{{ resultado.quantidadeVendas }}</strong>
+            </div>
+
+            <div class="card">
+                <span class="label">❌ Quantidade Perdidas</span>
+                <strong>{{ resultado.quantidadePerdidas }}</strong>
+            </div>
+        </div>
+    </div>
+</section>
