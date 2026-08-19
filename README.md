@@ -151,7 +151,21 @@ Os principais pacotes do backend incluem:
 
 ### Variáveis de ambiente
 
-A configuração principal do backend está em `HbSolution/src/main/resources/application.properties`:
+Copie o arquivo de exemplo para um arquivo local real antes de rodar a aplicação:
+
+```bash
+cp HbSolution/.env.example HbSolution/.env
+```
+
+Edite o arquivo `HbSolution/.env` com os valores reais do ambiente local:
+
+```env
+SPRING_DATASOURCE_PASSWORD=sua_senha_aqui
+JWT_SECRET=sua_chave_secreta_aqui_minimo_32_caracteres
+SPRING_DATASOURCE_USERNAME=hbsolutionadmin
+```
+
+A configuração principal do backend está em `HbSolution/src/main/resources/application.properties` e agora exige variáveis sem fallback sensível:
 
 ```properties
 server.port=8080
@@ -159,24 +173,50 @@ server.servlet.context-path=/api
 
 spring.datasource.url=${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/HBsolution}
 spring.datasource.username=${SPRING_DATASOURCE_USERNAME:hbsolutionadmin}
-spring.datasource.password=${SPRING_DATASOURCE_PASSWORD:Berlolo@0106}
+spring.datasource.password=${SPRING_DATASOURCE_PASSWORD}
 
 spring.jpa.hibernate.ddl-auto=${SPRING_JPA_HIBERNATE_DDL_AUTO:update}
 
-jwt.secret=${JWT_SECRET:defaultSecretKey}
+jwt.secret=${JWT_SECRET}
 jwt.expiration=${JWT_EXPIRATION:86400000}
 ```
 
-> O projeto já foi ajustado para usar a senha do banco conforme configuração da aplicação, e o Docker Compose foi validado para subir o PostgreSQL localmente.
+> Se o Spring Boot falhar ao iniciar sem essas variáveis, isso é comportamento esperado. É melhor falhar na inicialização do que rodar com senha ou segredo público.
+
+Exemplo de execução em desenvolvimento:
+
+```bash
+export SPRING_DATASOURCE_PASSWORD=dev123
+export JWT_SECRET=minha_chave_dev_1234567890
+./mvnw spring-boot:run
+```
+
+Ou diretamente em uma linha:
+
+```bash
+export SPRING_DATASOURCE_PASSWORD=dev123 && ./mvnw spring-boot:run
+```
 
 ## 7. Como subir a aplicação
 
 ### 7.1 Subir o banco PostgreSQL via Docker
 
-Na raiz do repositório:
+Antes de subir o banco, certifique-se de que o ambiente local tenha as variáveis preenchidas. O projeto usa o arquivo `HbSolution/.env` para isso.
 
 ```bash
+cp HbSolution/.env.example HbSolution/.env
+# edite o arquivo com os valores reais
+
 cd c:/Desenvolvimento/HBSolutions
+docker compose --env-file HbSolution/.env up -d --build
+```
+
+Ou, se preferir, exporte as variáveis antes do comando:
+
+```bash
+export SPRING_DATASOURCE_USERNAME=hbsolutionadmin
+export SPRING_DATASOURCE_PASSWORD=dev123
+
 docker compose up -d --build
 ```
 
@@ -186,7 +226,7 @@ O arquivo `docker-compose.yml` define o serviço PostgreSQL em:
 - porta: `5432`
 - banco: `HBsolution`
 - usuário: `hbsolutionadmin`
-- senha: `Berlolo@0106`
+- senha: configurada via `SPRING_DATASOURCE_PASSWORD`
 
 ### 7.2 Subir o backend Spring Boot
 

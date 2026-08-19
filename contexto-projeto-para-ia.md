@@ -167,4 +167,26 @@ O foco atual é manter a arquitetura atual, reduzir retrabalho e evoluir a UX e 
 
 ## Prompt para IA gratuita
 
-"Analise este projeto como uma aplicação Java + Spring Boot + Angular focada em CRM comercial. A base já está implementada, então o objetivo é evoluir com mínimo retrabalho, sem reescrever tudo do zero. Revise as entidades, services, controllers, repositories, DTOs e componentes
+"Analise este projeto como uma aplicação Java + Spring Boot + Angular focada em CRM comercial. A base já está implementada, então o objetivo é evoluir com mínimo retrabalho, sem reescrever tudo do zero. Revise as entidades, services, controllers, repositories, DTOs e componentes Angular já existentes, identifique o que está funcionando, o que está redundante e o que ainda falta para fechar o fluxo comercial completo. Sugira melhorias de arquitetura, organização de código, regras de negócio e próximos passos práticos. Considere que o projeto já possui JWT, leads, pipeline, oportunidades, dashboard, clientes, atividades, alertas e importação CSV. Mantenha a estrutura atual e recomende apenas ajustes relevantes para continuar o desenvolvimento do CRM com qualidade e eficiência. Responda em português e priorize sugestões concretas com arquivos exatos para editar."
+
+## Arquivos importantes para revisão
+
+- `README.md`
+- `docker-compose.yml`
+- `HbSolution/src/main/resources/application.properties`
+- `HbSolution/src/main/java/com/api/HbSolution/controller/`
+- `HbSolution/src/main/java/com/api/HbSolution/service/`
+- `HbSolution/src/main/java/com/api/HbSolution/repository/`
+- `HbSolution/src/main/java/com/api/HbSolution/entity/`
+- `HBSolution-web/src/app/`
+
+## Objetivo da IA consultada
+A IA deve entender que esta é uma evolução incremental de um sistema funcional, não uma reescrita completa. A prioridade é:
+
+- manter a arquitetura atual
+- evitar retrabalho
+- evoluir o CRM comercial com segurança e consistência
+- indicar ajustes e melhorias com foco em qualidade, simplicidade e produtividade
+
+## Dica final
+Se a IA for gratuita, peça que responda em português, seja objetiva, destaque apenas o que precisa ser feito, evite explicações genéricas demais e sugira arquivos específicos para editar no projeto atual.
